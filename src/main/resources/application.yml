@@ -12,5 +12,13 @@ server:
 
 
 
-
-
+spring:
+  profiles:
+    include: api
+  redis:
+    jedis:
+      pool:
+        max-idle: 8
+        max-active: 8
+        min-idle: 0
+        max-wait: 5000

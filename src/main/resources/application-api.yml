@@ -1,0 +1,5 @@
+redis:
+  host: 39.115.99.181
+  port: 6379
+  auth: 123123321
+  timeout: 3000

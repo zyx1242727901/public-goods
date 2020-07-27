@@ -1,13 +1,17 @@
-package com.xh.publicgoods.test;
+package com.xh.publicgoods.testhttp;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 public class TestConnect {
 
     @RequestMapping("/testConnect")
     public String testConnect() {
+        log.info("testConnect success");
+        log.error("testConnect fail");
         return "success";
     }
 }
