@@ -1,0 +1,16 @@
+
+# 应用服务 WEB 访问端口
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    accept-count: 1000
+    threads:
+      min-spare: 10
+      max: 1000
+  port: 8888
+
+
+
+
+
+
