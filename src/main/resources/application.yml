@@ -8,9 +8,11 @@ server:
       min-spare: 10
       max: 1000
   port: 8888
-
-
-
+#页面访问路径设置
+mvc:
+  view:
+    prefix: /
+    suffix: .html
 
 spring:
   profiles:
