@@ -1,0 +1,125 @@
+17:34:58.153 [main] INFO  c.x.p.PublicGoodsApplication - Starting PublicGoodsApplication on DESKTOP-3R335H2 with PID 312 (D:\public-goods\target\classes started by hxcs-005 in D:\public-goods)
+17:34:58.155 [main] INFO  c.x.p.PublicGoodsApplication - The following profiles are active: api
+17:34:58.632 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$eefc71af] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+17:34:58.659 [main] INFO  o.s.w.s.a.s.AnnotationActionEndpointMapping - Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+17:34:58.814 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+17:34:58.824 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+17:34:58.832 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+17:34:58.832 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.34]
+17:34:58.922 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:34:58.922 [main] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 740 ms
+17:34:59.081 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+17:34:59.198 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8888"]
+17:34:59.213 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8888 (http) with context path ''
+17:34:59.216 [main] INFO  c.x.p.PublicGoodsApplication - Started PublicGoodsApplication in 1.359 seconds (JVM running for 2.968)
+17:42:21.799 [main] INFO  c.x.p.PublicGoodsApplication - Starting PublicGoodsApplication on DESKTOP-3R335H2 with PID 12016 (D:\public-goods\target\classes started by hxcs-005 in D:\public-goods)
+17:42:21.800 [main] INFO  c.x.p.PublicGoodsApplication - The following profiles are active: api
+17:42:22.378 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$41fa8992] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+17:42:22.401 [main] INFO  o.s.w.s.a.s.AnnotationActionEndpointMapping - Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+17:42:22.548 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+17:42:22.558 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+17:42:22.565 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+17:42:22.566 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.34]
+17:42:22.652 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:42:22.652 [main] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 826 ms
+17:42:22.819 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+17:42:22.943 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8888"]
+17:42:22.962 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8888 (http) with context path ''
+17:42:22.965 [main] INFO  c.x.p.PublicGoodsApplication - Started PublicGoodsApplication in 1.447 seconds (JVM running for 2.076)
+17:42:49.798 [http-nio-8888-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17:42:49.799 [http-nio-8888-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+17:42:49.804 [http-nio-8888-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 5 ms
+17:46:56.655 [main] INFO  c.x.p.PublicGoodsApplication - Starting PublicGoodsApplication on DESKTOP-3R335H2 with PID 12512 (D:\public-goods\target\classes started by hxcs-005 in D:\public-goods)
+17:46:56.658 [main] INFO  c.x.p.PublicGoodsApplication - The following profiles are active: api
+17:46:57.312 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$11b00] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+17:46:57.339 [main] INFO  o.s.w.s.a.s.AnnotationActionEndpointMapping - Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+17:46:57.500 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+17:46:57.510 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+17:46:57.520 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+17:46:57.521 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.34]
+17:46:57.623 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:46:57.623 [main] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 921 ms
+17:46:57.801 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+17:46:57.917 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8888"]
+17:46:57.934 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8888 (http) with context path ''
+17:46:57.938 [main] INFO  c.x.p.PublicGoodsApplication - Started PublicGoodsApplication in 1.706 seconds (JVM running for 2.357)
+17:47:01.690 [http-nio-8888-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17:47:01.691 [http-nio-8888-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+17:47:01.696 [http-nio-8888-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 5 ms
+17:56:27.110 [restartedMain] INFO  c.x.p.PublicGoodsApplication - Starting PublicGoodsApplication on DESKTOP-3R335H2 with PID 15664 (D:\public-goods\target\classes started by hxcs-005 in D:\public-goods)
+17:56:27.128 [restartedMain] INFO  c.x.p.PublicGoodsApplication - The following profiles are active: api
+17:56:27.183 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+17:56:27.183 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+17:56:28.103 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$a74f829c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+17:56:28.143 [restartedMain] INFO  o.s.w.s.a.s.AnnotationActionEndpointMapping - Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+17:56:28.434 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+17:56:28.445 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+17:56:28.453 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+17:56:28.454 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.34]
+17:56:28.529 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:56:28.530 [restartedMain] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 1347 ms
+17:56:28.690 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+17:56:28.801 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+17:56:28.817 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8888"]
+17:56:28.835 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8888 (http) with context path ''
+17:56:28.839 [restartedMain] INFO  c.x.p.PublicGoodsApplication - Started PublicGoodsApplication in 2.054 seconds (JVM running for 2.771)
+17:56:53.249 [http-nio-8888-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17:56:53.250 [http-nio-8888-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+17:56:53.255 [http-nio-8888-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 5 ms
+17:57:01.957 [restartedMain] INFO  c.x.p.PublicGoodsApplication - Starting PublicGoodsApplication on DESKTOP-3R335H2 with PID 12696 (D:\public-goods\target\classes started by hxcs-005 in D:\public-goods)
+17:57:01.959 [restartedMain] INFO  c.x.p.PublicGoodsApplication - The following profiles are active: api
+17:57:02.024 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+17:57:02.025 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+17:57:02.770 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$ccc4a77a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+17:57:02.793 [restartedMain] INFO  o.s.w.s.a.s.AnnotationActionEndpointMapping - Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+17:57:02.993 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+17:57:03.004 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+17:57:03.014 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+17:57:03.014 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.34]
+17:57:03.097 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:57:03.097 [restartedMain] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 1071 ms
+17:57:03.279 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+17:57:03.403 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+17:57:03.419 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8888"]
+17:57:03.436 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8888 (http) with context path ''
+17:57:03.439 [restartedMain] INFO  c.x.p.PublicGoodsApplication - Started PublicGoodsApplication in 1.891 seconds (JVM running for 2.696)
+17:57:04.065 [http-nio-8888-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17:57:04.066 [http-nio-8888-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+17:57:04.070 [http-nio-8888-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+17:59:33.917 [restartedMain] INFO  c.x.p.PublicGoodsApplication - Starting PublicGoodsApplication on DESKTOP-3R335H2 with PID 12284 (D:\public-goods\target\classes started by hxcs-005 in D:\public-goods)
+17:59:33.919 [restartedMain] INFO  c.x.p.PublicGoodsApplication - The following profiles are active: api
+17:59:33.956 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+17:59:33.956 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+17:59:34.571 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$271fe93a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+17:59:34.596 [restartedMain] INFO  o.s.w.s.a.s.AnnotationActionEndpointMapping - Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+17:59:34.790 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+17:59:34.801 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+17:59:34.809 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+17:59:34.810 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.34]
+17:59:34.893 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:59:34.893 [restartedMain] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 937 ms
+17:59:35.054 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+17:59:35.166 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+17:59:35.188 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8888"]
+17:59:35.206 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8888 (http) with context path ''
+17:59:35.209 [restartedMain] INFO  c.x.p.PublicGoodsApplication - Started PublicGoodsApplication in 1.688 seconds (JVM running for 2.555)
+17:59:37.691 [http-nio-8888-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17:59:37.692 [http-nio-8888-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+17:59:37.696 [http-nio-8888-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+18:01:30.685 [restartedMain] INFO  c.x.p.PublicGoodsApplication - Starting PublicGoodsApplication on DESKTOP-3R335H2 with PID 14260 (D:\public-goods\target\classes started by hxcs-005 in D:\public-goods)
+18:01:30.687 [restartedMain] INFO  c.x.p.PublicGoodsApplication - The following profiles are active: api
+18:01:30.718 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+18:01:30.718 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+18:01:31.271 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$b48d6ec8] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+18:01:31.299 [restartedMain] INFO  o.s.w.s.a.s.AnnotationActionEndpointMapping - Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+18:01:31.666 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8888 (http)
+18:01:31.680 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+18:01:31.698 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+18:01:31.699 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.34]
+18:01:31.811 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+18:01:31.812 [restartedMain] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 1094 ms
+18:01:32.074 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+18:01:32.198 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+18:01:32.216 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8888"]
+18:01:32.235 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8888 (http) with context path ''
+18:01:32.238 [restartedMain] INFO  c.x.p.PublicGoodsApplication - Started PublicGoodsApplication in 1.909 seconds (JVM running for 2.878)
