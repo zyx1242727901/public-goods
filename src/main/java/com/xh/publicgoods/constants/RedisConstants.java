@@ -1,11 +1,24 @@
 package com.xh.publicgoods.constants;
 
 public class RedisConstants {
+    //===========================  有效期相关  ====================================
+    public static final Integer ONE_HOUR = 60*60;
+
+
+
     //===========================  房间相关  ====================================
     /**
-     * 当前房间已进入玩家数  占位符-房间号
+     * 当前房间已进入玩家  占位符-房间号
      */
-    public static final String ROOM_USER_COUNT = "room_%s_count";
+    public static final String ROOM_USER_SET = "room_%s_set";
+    /**
+     * 房间账户
+     */
+    public static final String ROOM_ACCOUNT = "room_%s_account";
+    /**
+     * 房间号set
+     */
+    public static final String ROOM_ID_SET = "room_id_set";
 
 
 
@@ -22,6 +35,10 @@ public class RedisConstants {
      * 已存在用户名
      */
     public static final String USER_NAME_SET = "user_name_set";
+    /**
+     * 用户注册信息集合
+     */
+    public static final String USER_INFO_HASH = "user_info_hash";
 
 
 
@@ -34,5 +51,10 @@ public class RedisConstants {
      * 当前房间某回合已投资人数  占位符-房间号
      */
     public static final String ROOM_INVEST_USER_COUNT = "invest_%s_count";
+
+
+
+    //===========================  锁相关  ====================================
+    public static final String LOCK_ROOM = "lock_%s_room";
 
 }

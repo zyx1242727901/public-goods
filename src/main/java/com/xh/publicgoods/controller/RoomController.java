@@ -2,6 +2,8 @@ package com.xh.publicgoods.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xh.publicgoods.enums.ResultEnum;
+import com.xh.publicgoods.service.RoomService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,15 +12,25 @@ import org.springframework.web.bind.annotation.RestController;
  * @author zhangyuxiao
  */
 @RestController
-@RequestMapping("/index")
-public class IndexController {
+@RequestMapping("/room")
+public class RoomController {
+    @Autowired
+    private RoomService roomService;
 
     /**
      * 游戏大厅页面数据
      */
     @RequestMapping("/getHallInfo")
     public JSONObject getHallInfo(){
-        return ResultEnum.returnResultJson(ResultEnum.SUCCESS);
+        return roomService.getHallInfo();
+    }
+
+    /**
+     * 游戏大厅页面数据
+     */
+    @RequestMapping("/createRoom")
+    public JSONObject createRoom(){
+        return roomService.createRoom();
     }
 
 

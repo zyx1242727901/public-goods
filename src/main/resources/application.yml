@@ -22,5 +22,5 @@ spring:
       pool:
         max-idle: 8
         max-active: 8
-        min-idle: 0
+        min-idle: 1
         max-wait: 5000
