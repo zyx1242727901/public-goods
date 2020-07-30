@@ -1,6 +1,7 @@
 package com.xh.publicgoods.service.impl;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xh.publicgoods.bean.UserInvestRecordBean;
@@ -143,10 +144,9 @@ public class RoomServiceImpl implements RoomService {
                     String bouns = redisHelper.hget(investRecord.getUserName(), entry.getKey());
                     temp.setBounsMoney(CommonConstants.USER_ROUND_INIT_MONEY.subtract(temp.getInvestMoney()).add(new BigDecimal(StringUtils.isEmpty(bouns) ? "0" : bouns)));
                     temp.setSumMoney(new BigDecimal(redisHelper.get(String.format(RedisConstants.USER_ACCOUNT_SUM_MONEY,temp.getUserName()))));
+                    temp.setGender(JSON.parseObject(redisHelper.hget(RedisConstants.USER_INFO_HASH,temp.getUserName())).getString("gender"));
                     list.add(temp);
                 });
-               
-
             });
         }
 

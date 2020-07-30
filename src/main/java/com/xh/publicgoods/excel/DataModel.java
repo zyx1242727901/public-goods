@@ -13,10 +13,12 @@ import java.math.BigDecimal;
 @ColumnWidth(25)
 @Data
 public class DataModel {
-    @ExcelProperty("用户名")
-    private String userName;
     @ExcelProperty("回合")
     private Long round;
+    @ExcelProperty("用户名")
+    private String userName;
+    @ExcelProperty("性别")
+    private String gender;
     @ExcelProperty("存入金额")
     private BigDecimal investMoney;
     @ExcelProperty("积攒金额")

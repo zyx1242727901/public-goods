@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
         }
         //校验是否当前回合已投过
         String investRecord = redisHelper.hget(String.format(RedisConstants.INVEST_OPERATE_RECORD, roomId), round.toString());
-        if (!StringUtils.isEmpty(investRecord) && investRecord.contains(userName)) {
+        if (!StringUtils.isEmpty(investRecord) && investRecord.contains('\"'+userName+'\"')) {
             return ResultEnum.returnResultJson(ResultEnum.E0000005);
         }
 
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
                 redisHelper.multiIncr(multi, String.format(RedisConstants.ROOM_INVEST_USER_COUNT, roomId), 1L);
                 redisHelper.exec(multi);
                 String count = redisHelper.get(String.format(RedisConstants.ROOM_INVEST_USER_COUNT, roomId));
-                json.put("fullGlag", Long.parseLong(count) >= CommonConstants.ROOM_USER_MAX_COUNT);
+                json.put("fullFlag", Long.parseLong(count) >= CommonConstants.ROOM_USER_MAX_COUNT);
             } catch (Exception e) {
                 log.error("UserServiceImpl.userInvest ERROR params::" + userName + "," + roomId + "," + round + "," + amount, e);
                 return ResultEnum.returnResultJson(ResultEnum.FAIL);
