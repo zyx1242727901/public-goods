@@ -13,9 +13,7 @@ import redis.clients.jedis.Response;
 import redis.clients.jedis.Transaction;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author zhangyuxiao
@@ -77,10 +75,9 @@ public class RedisHelper {
         }
     }
 
-    public String multiSetex(Transaction transaction, String key, String value, int expire) {
+    public void multiSetex(Transaction transaction, String key, String value, int expire) {
         try {
             Response<String> setex = transaction.setex(key, expire, value);
-            return setex.get();
         } catch (Exception e) {
             log.error("RedisService.multiSetex Error key=" + key + " value=" + value + " expire=" + expire, e);
             try {
@@ -110,11 +107,10 @@ public class RedisHelper {
         }
     }
 
-    public String multiGet(Transaction transaction, String key) {
+    public void multiGet(Transaction transaction, String key) {
 
         try {
             Response<String> result = transaction.get(key);
-            return result.get();
         } catch (Exception e) {
             log.error("RedisService.multiGet Error key=" + key , e);
             try {
@@ -143,10 +139,10 @@ public class RedisHelper {
         return result;
     }
 
-    public Long multiIncr(Transaction transaction, String key, Long offset) {
+    public void multiIncr(Transaction transaction, String key, Long offset) {
         try {
 
-            return transaction.incrBy(key, offset).get();
+            transaction.incrBy(key, offset);
         } catch (Exception e) {
             log.error("RedisService multiIncr exception by key" + key, e);
             try {
@@ -189,10 +185,9 @@ public class RedisHelper {
         }
     }
 
-    public Long multiHset(Transaction transaction, String key,String secondKey, String value) {
+    public void multiHset(Transaction transaction, String key,String secondKey, String value) {
         try {
             Response<Long> setex = transaction.hset(key, secondKey, value);
-            return setex.get();
         } catch (Exception e) {
             log.error("RedisService.multiHset Error key=" + key + " value=" + value + " expire=" + secondKey, e);
             try {
@@ -270,6 +265,22 @@ public class RedisHelper {
         }
     }
 
+    public Map<String, String> hmgetAll(String key) {
+        Map<String, String> result = new HashMap<>();
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            result = jedis.hgetAll(key);
+        } catch (Exception e) {
+            log.info("redis hmgetAll message: by key" + key, e);
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return result;
+    }
+
     public Long sadd(String key,String... members) {
         Jedis jedis = jedisPool.getResource();
         try {
@@ -285,10 +296,9 @@ public class RedisHelper {
         }
     }
 
-    public Long multiSadd(Transaction transaction, String key,String... members) {
+    public void multiSadd(Transaction transaction, String key,String... members) {
         try {
             Response<Long> setex = transaction.sadd(key, members);
-            return setex.get();
         } catch (Exception e) {
             log.error("RedisService.multiSadd Error key=" + key + " members=" + members, e);
             try {
@@ -364,6 +374,29 @@ public class RedisHelper {
         }
     }
 
+    /**
+     * 移除集合 key 中的一个或多个 member 元素，不存在的 member 元素会被忽略。
+     *
+     * @param key
+     * @param members
+     * @return
+     */
+    public Long srem(String key, String... members) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            Long srem = jedis.srem(key, members);
+            return srem;
+        } catch (Exception e) {
+            log.error("redis srem exception Error key=" + key+", members="+members, e);
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return 0L;
+    }
+
     public Long expire(String key, int seconds) {
         long result = 0L;
         Jedis jedis = null;
@@ -390,10 +423,18 @@ public class RedisHelper {
         } catch (Exception e) {
             log.error("RedisService.multi Error", e);
             throw new RuntimeException(e);
+        }
+    }
+
+    public Jedis getInstance(){
+        try {
+            return jedisPool.getResource();
+
+        } catch (Exception e) {
+            log.error("RedisService.getInstance Error", e);
+            throw new RuntimeException(e);
         } finally {
-//            if (jedis != null) {
-//                jedis.close();
-//            }
+
         }
     }
 

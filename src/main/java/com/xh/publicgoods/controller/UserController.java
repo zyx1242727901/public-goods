@@ -42,9 +42,9 @@ public class UserController {
     }
 
     /**
-     * 回合清算
+     * 用户投资
      */
-    @RequestMapping("/{userName}/{round}/{roomId}/{amount}/liquidation")
+    @RequestMapping("/{userName}/{round}/{roomId}/{amount}/userInvest")
     public JSONObject enterRoom(@PathVariable(value = "userName") String userName,
                                 @PathVariable(value = "round") Long round,
                                 @PathVariable(value = "roomId") String roomId,

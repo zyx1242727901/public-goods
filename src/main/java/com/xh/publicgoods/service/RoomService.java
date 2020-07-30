@@ -11,4 +11,10 @@ public interface RoomService {
     JSONObject createRoom();
 
     JSONObject destroyRoom(String roomId);
+    /**
+     * 结束游戏
+     * @param roomId
+     * @return
+     */
+    JSONObject finalizeGame(String roomId);
 }

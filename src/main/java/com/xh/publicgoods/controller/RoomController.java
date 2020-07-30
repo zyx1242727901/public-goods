@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.xh.publicgoods.enums.ResultEnum;
 import com.xh.publicgoods.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,12 +27,21 @@ public class RoomController {
     }
 
     /**
-     * 游戏大厅页面数据
+     * 创建房间
      */
     @RequestMapping("/createRoom")
     public JSONObject createRoom(){
         return roomService.createRoom();
     }
 
+    /**
+     * 结束游戏
+     * @param roomId
+     * @return
+     */
+    @RequestMapping("/{roomId}/finalizeGame")
+    public JSONObject createRoom(@PathVariable("roomId") String roomId){
+        return roomService.finalizeGame(roomId);
+    }
 
 }
