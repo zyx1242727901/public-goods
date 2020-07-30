@@ -21,6 +21,6 @@ public class DataModel {
     private BigDecimal investMoney;
     @ExcelProperty("积攒金额")
     private BigDecimal bounsMoney;
-    @ExcelProperty("账户总金额")
+    @ExcelProperty("游戏结束时账户总金额")
     private BigDecimal sumMoney;
 }

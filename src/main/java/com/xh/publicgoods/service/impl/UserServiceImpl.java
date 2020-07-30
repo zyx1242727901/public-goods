@@ -1,7 +1,9 @@
 package com.xh.publicgoods.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xh.publicgoods.bean.UserInfo;
+import com.xh.publicgoods.bean.UserInvestRecordBean;
 import com.xh.publicgoods.constants.CommonConstants;
 import com.xh.publicgoods.constants.RedisConstants;
 import com.xh.publicgoods.enums.GenderEnum;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Transaction;
 
 import java.math.BigDecimal;
@@ -31,10 +34,14 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(roomId)) {
             return ResultEnum.returnResultJson(ResultEnum.E0000002);
         }
+        String key = String.format(RedisConstants.ROOM_USER_SET, roomId);
+
+        if (CommonConstants.ROOM_USER_MAX_COUNT.compareTo(redisHelper.scard(key)) <= 0) {
+            return ResultEnum.returnResultJson(ResultEnum.E0000004);
+        }
 
         JSONObject json = ResultEnum.returnResultJson(ResultEnum.SUCCESS);
 
-        String key = String.format(RedisConstants.ROOM_USER_SET, roomId);
         redisHelper.sadd(key,userName);
         Long scard = redisHelper.scard(key);
         if (CommonConstants.ROOM_USER_MAX_COUNT.compareTo(scard) > 0) {
@@ -59,35 +66,45 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(roomId) || round == null || amount == null) {
             return ResultEnum.returnResultJson(ResultEnum.E0000002);
         }
+        //校验是否当前回合已投过
+        String investRecord = redisHelper.hget(String.format(RedisConstants.INVEST_OPERATE_RECORD, roomId), round.toString());
+        if (!StringUtils.isEmpty(investRecord) && investRecord.contains(userName)) {
+            return ResultEnum.returnResultJson(ResultEnum.E0000005);
+        }
+
         JSONObject json = ResultEnum.returnResultJson(ResultEnum.SUCCESS);
 
-        String currentRecord = String.format(CommonConstants.ROUND_INVEST_RECOURD, userName, amount);
+        UserInvestRecordBean currentRecord = new UserInvestRecordBean(userName,amount);
         String firstKey = String.format(RedisConstants.INVEST_OPERATE_RECORD, roomId);
         String secondKey = round.toString();
 
-
         RLock lock = redisHelper.getLock(String.format(RedisConstants.LOCK_ROOM, roomId));
         if(lock.tryLock()){
+            Jedis jedis = redisHelper.getInstance();
+
             try {
-                Transaction multi = redisHelper.multi();
+                Transaction multi = jedis.multi();
 
                 //用户投资行为保存
                 String record = redisHelper.hget(firstKey, secondKey);
-                record = record == null ? currentRecord : record + currentRecord;
-                redisHelper.multiHset(multi, firstKey, secondKey, record);
+                JSONArray array = StringUtils.isEmpty(record) ? new JSONArray() : JSONArray.parseArray(record);
+                array.add(currentRecord);
+                redisHelper.multiHset(multi, firstKey, secondKey, array.toJSONString());
                 //账户金额变更
                 incrUserMoneyByInvest(amount, userName, multi);
                 //房间账户增加
                 redisHelper.multiIncr(multi, String.format(RedisConstants.ROOM_ACCOUNT, roomId), amount.longValue());
                 //房间已投人数变更
-                Long incr = redisHelper.multiIncr(multi, String.format(RedisConstants.ROOM_INVEST_USER_COUNT, roomId), 1L);
-                json.put("fullGlag", incr < CommonConstants.ROOM_USER_MAX_COUNT);
+                redisHelper.multiIncr(multi, String.format(RedisConstants.ROOM_INVEST_USER_COUNT, roomId), 1L);
                 redisHelper.exec(multi);
+                String count = redisHelper.get(String.format(RedisConstants.ROOM_INVEST_USER_COUNT, roomId));
+                json.put("fullGlag", Long.parseLong(count) >= CommonConstants.ROOM_USER_MAX_COUNT);
             } catch (Exception e) {
                 log.error("UserServiceImpl.userInvest ERROR params::" + userName + "," + roomId + "," + round + "," + amount, e);
                 return ResultEnum.returnResultJson(ResultEnum.FAIL);
             }finally {
                 lock.unlock();
+                jedis.close();
             }
         }
 
@@ -109,8 +126,9 @@ public class UserServiceImpl implements UserService {
 
         RLock lock = redisHelper.getLock(String.format(RedisConstants.LOCK_ROOM, roomId));
         if(lock.tryLock()){
+            Jedis jedis = redisHelper.getInstance();
             try {
-                Transaction multi = redisHelper.multi();
+                Transaction multi = jedis.multi();
                 //计算分红并保存
                 liquidationBonus(roomId, round, multi);
                 //房间已投人数清零
@@ -119,11 +137,13 @@ public class UserServiceImpl implements UserService {
                 //房间账户清零
                 redisHelper.multiSetex(multi, String.format(RedisConstants.ROOM_ACCOUNT, roomId), "0", RedisConstants.ONE_HOUR);
                 redisHelper.exec(multi);
+
             } catch (Exception e) {
                 log.error("UserServiceImpl.liquidation ERROR params::" + roomId + "," + round, e);
                 return ResultEnum.returnResultJson(ResultEnum.FAIL);
             }finally {
                 lock.unlock();
+                jedis.close();
             }
         }
 
@@ -143,16 +163,16 @@ public class UserServiceImpl implements UserService {
     private void incrUserMoneyByInvest(BigDecimal amount, String userName, Transaction multi) {
         String accountKey = String.format(RedisConstants.USER_ACCOUNT_SUM_MONEY, userName);
 
-        String moneyStr = redisHelper.multiGet(multi, accountKey);
-        BigDecimal userCurrentMoney = new BigDecimal(moneyStr).add(CommonConstants.USER_ROUND_INIT_MONEY.subtract(amount));
+        String moneyStr = redisHelper.get(accountKey);
+        BigDecimal userCurrentMoney = new BigDecimal(StringUtils.isEmpty(moneyStr) ? "0" : moneyStr).add(CommonConstants.USER_ROUND_INIT_MONEY.subtract(amount));
         redisHelper.multiSetex(multi, accountKey, userCurrentMoney.toPlainString(), RedisConstants.ONE_HOUR);
     }
 
     private void incrUserMoneyByLiquidation(BigDecimal amount, String userName, Transaction multi) {
         String accountKey = String.format(RedisConstants.USER_ACCOUNT_SUM_MONEY, userName);
 
-        String moneyStr = redisHelper.multiGet(multi, accountKey);
-        BigDecimal userCurrentMoney = new BigDecimal(moneyStr).add(amount);
+        String moneyStr = redisHelper.get(accountKey);
+        BigDecimal userCurrentMoney = new BigDecimal(StringUtils.isEmpty(moneyStr) ? "0" : moneyStr).add(amount);
         redisHelper.multiSetex(multi,accountKey, userCurrentMoney.toPlainString(), RedisConstants.ONE_HOUR);
     }
 
