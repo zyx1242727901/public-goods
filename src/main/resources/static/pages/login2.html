@@ -47,8 +47,7 @@
           if(response.data.code == 'SUCCESS'){
             location.href="rule.html";
           }else{
-            //console.log('2222')
-            vue.$message.error(response.message);
+            alert(response.data.message)
           }
         });
 
