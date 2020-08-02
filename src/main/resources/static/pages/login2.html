@@ -45,10 +45,10 @@
         .then((response) => {
           console.log(response);
           if(response.data.code == 'SUCCESS'){
-            location.href="login.html";
+            location.href="rule.html";
           }else{
-            console.log('2222')
-            //vue.$message.error(response.message);
+            //console.log('2222')
+            vue.$message.error(response.message);
           }
         });
 

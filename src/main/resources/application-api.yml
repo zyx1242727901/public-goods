@@ -1,5 +1,5 @@
 redis:
   host: 39.105.95.181
   port: 6793
-  auth: yuxiao0122
+  auth: 12345
   timeout: 3000
