@@ -11,15 +11,15 @@
     <h1>Login</h1>
     <form method="post">
         <span style="color:greenyellow">subject Number:</span>
-        <input type="text" required="required" placeholder="subjectNumber" name="userName" id="userName"/>
+        <input type="text" required="required" placeholder="subjectNumber" name="userName" id="userName" required="required"/>
         <span style="color:greenyellow">Age:</span>
-        <input type="text" required="required" placeholder="Age" name="age" id="age"/>
+        <input type="number" required="required" placeholder="Age" name="age" id="age" required="required"/>
         <span style="color:greenyellow">Gender2:</span>
         <select name="gender" id="gender">
             <option value="MALE" style="color:greenyellow">男</option>
             <option value="FE_MALE" style="color:greenyellow">女</option>
         </select>
-        <input  type="button" value="登录" @click="login()"></input>
+        <input  type="submit" value="登录" @click="login()" style=" width: 300px;height: 40px; "></input>
     </form>
 </div>
 </body>
