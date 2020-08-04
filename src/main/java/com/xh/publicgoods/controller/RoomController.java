@@ -1,6 +1,8 @@
 package com.xh.publicgoods.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xh.publicgoods.constants.CommonConstants;
+import com.xh.publicgoods.constants.RedisConstants;
 import com.xh.publicgoods.enums.ResultEnum;
 import com.xh.publicgoods.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ public class RoomController {
     private RoomService roomService;
 
     /**
-     * 游戏大厅页面数据
+     * 游戏大厅页面数据 -- 轮询接口
      */
     @RequestMapping("/getHallInfo")
     public JSONObject getHallInfo(){
@@ -44,4 +46,21 @@ public class RoomController {
         return roomService.finalizeGame(roomId);
     }
 
+    /**
+     * 房间人满开始游戏 -- 轮询接口
+     */
+    @RequestMapping("/{roomId}/queryStartFlag")
+    public JSONObject queryStartFlag(@PathVariable("roomId") String roomId){
+        return roomService.queryStartFlag(roomId);
+    }
+
+
+
+    /**
+     * 是否已全部投资完 -- 轮询接口
+     */
+    @RequestMapping("/{roomId}/queryFullInvestFlag")
+    public JSONObject queryFullInvestFlag(@PathVariable("roomId") String roomId){
+        return roomService.queryFullInvestFlag(roomId);
+    }
 }

@@ -17,4 +17,8 @@ public interface RoomService {
      * @return
      */
     JSONObject finalizeGame(String roomId);
+
+    JSONObject queryStartFlag(String roomId);
+
+    JSONObject queryFullInvestFlag(String roomId);
 }

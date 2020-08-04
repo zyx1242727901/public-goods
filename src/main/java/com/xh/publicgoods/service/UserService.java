@@ -28,7 +28,7 @@ public interface UserService {
      * @param roomId
      * @return
      */
-    JSONObject liquidation(Long round, String roomId);
+    JSONObject liquidation(Long round, String roomId, String userName) throws InterruptedException;
 
     JSONObject login(String userName, Integer age, GenderEnum gender);
 }

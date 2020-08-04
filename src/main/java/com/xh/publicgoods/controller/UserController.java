@@ -55,10 +55,11 @@ public class UserController {
     /**
      * 回合清算
      */
-    @RequestMapping("/{round}/{roomId}/liquidation")
-    public JSONObject enterRoom(@PathVariable(value = "round") Long round,
-                                @PathVariable(value = "roomId")String roomId){
-        return userService.liquidation(round, roomId);
+    @RequestMapping("/{userName}/{round}/{roomId}/liquidation")
+    public JSONObject enterRoom(@PathVariable(value = "userName") String userName,
+                                @PathVariable(value = "round") Long round,
+                                @PathVariable(value = "roomId")String roomId) throws InterruptedException {
+        return userService.liquidation(round, roomId, userName);
     }
 
 

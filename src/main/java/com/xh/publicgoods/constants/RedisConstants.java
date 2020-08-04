@@ -3,6 +3,7 @@ package com.xh.publicgoods.constants;
 public class RedisConstants {
     //===========================  有效期相关  ====================================
     public static final Integer ONE_HOUR = 60*60;
+    public static final Integer FIVE_MINUTE = 60*5;
 
 
 
@@ -51,10 +52,20 @@ public class RedisConstants {
      * 当前房间某回合已投资人数  占位符-房间号
      */
     public static final String ROOM_INVEST_USER_COUNT = "invest_%s_count";
+    /**
+     * 是否清算标记
+     */
+    public static final String ROOM_ROUND_LIQUIDATION_FLAG = "%s_%s_liquidation_flag";
+    /**
+     * 是否销毁房间标记
+     */
+    public static final String ROOM_FINALIZE_FLAG = "%s_finalize_flag";
 
 
 
     //===========================  锁相关  ====================================
     public static final String LOCK_ROOM = "lock_%s_room";
+    public static final String LOCK_ROOM_LIQUIDATION = "lock_%s_room_liquidation";
+
 
 }

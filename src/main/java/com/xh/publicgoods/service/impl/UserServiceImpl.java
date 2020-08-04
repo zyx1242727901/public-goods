@@ -21,7 +21,10 @@ import redis.clients.jedis.Transaction;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -43,12 +46,6 @@ public class UserServiceImpl implements UserService {
         JSONObject json = ResultEnum.returnResultJson(ResultEnum.SUCCESS);
 
         redisHelper.sadd(key,userName);
-        Long scard = redisHelper.scard(key);
-        if (CommonConstants.ROOM_USER_MAX_COUNT.compareTo(scard) > 0) {
-            json.put("startFlag", false);
-        } else {
-            json.put("startFlag", true);
-        }
 
         return json;
     }
@@ -97,8 +94,7 @@ public class UserServiceImpl implements UserService {
                 //房间已投人数变更
                 redisHelper.multiIncr(multi, String.format(RedisConstants.ROOM_INVEST_USER_COUNT, roomId), 1L);
                 redisHelper.exec(multi);
-                String count = redisHelper.get(String.format(RedisConstants.ROOM_INVEST_USER_COUNT, roomId));
-                json.put("fullFlag", Long.parseLong(count) >= CommonConstants.ROOM_USER_MAX_COUNT);
+
             } catch (Exception e) {
                 log.error("UserServiceImpl.userInvest ERROR params::" + userName + "," + roomId + "," + round + "," + amount, e);
                 return ResultEnum.returnResultJson(ResultEnum.FAIL);
@@ -118,14 +114,17 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public JSONObject liquidation(Long round, String roomId) {
+    public JSONObject liquidation(Long round, String roomId, String userName) throws InterruptedException {
         if (StringUtils.isEmpty(roomId) || round == null) {
             return ResultEnum.returnResultJson(ResultEnum.E0000002);
         }
-        JSONObject json = ResultEnum.returnResultJson(ResultEnum.SUCCESS);
+        String flagKey = String.format(RedisConstants.ROOM_ROUND_LIQUIDATION_FLAG, roomId, round.toString());
 
-        RLock lock = redisHelper.getLock(String.format(RedisConstants.LOCK_ROOM, roomId));
-        if(lock.tryLock()){
+        if (!StringUtils.isEmpty(redisHelper.get(flagKey))) {
+            return getLiquidationRes(roomId, round, userName);
+        }
+        RLock lock = redisHelper.getLock(String.format(RedisConstants.LOCK_ROOM_LIQUIDATION, roomId));
+        if (lock.tryLock()) {
             Jedis jedis = redisHelper.getInstance();
             try {
                 Transaction multi = jedis.multi();
@@ -137,14 +136,47 @@ public class UserServiceImpl implements UserService {
                 //房间账户清零
                 redisHelper.multiSetex(multi, String.format(RedisConstants.ROOM_ACCOUNT, roomId), "0", RedisConstants.ONE_HOUR);
                 redisHelper.exec(multi);
+                //设置清算结束标志位
+                redisHelper.setex(flagKey, "true", RedisConstants.FIVE_MINUTE);
 
+                return getLiquidationRes(roomId, round, userName);
             } catch (Exception e) {
                 log.error("UserServiceImpl.liquidation ERROR params::" + roomId + "," + round, e);
                 return ResultEnum.returnResultJson(ResultEnum.FAIL);
-            }finally {
+            } finally {
                 lock.unlock();
                 jedis.close();
             }
+        } else {
+            //说明已经开始清算了，此时睡几秒直接查询即可，无需加锁
+            while (true) {
+                TimeUnit.SECONDS.sleep(2);
+                if (!StringUtils.isEmpty(redisHelper.get(flagKey))){
+                    return getLiquidationRes(roomId, round, userName);
+                }
+            }
+        }
+
+    }
+
+    private JSONObject getLiquidationRes(String roomId, Long round, String userName) {
+        JSONObject json = ResultEnum.returnResultJson(ResultEnum.SUCCESS);
+        String bonus = redisHelper.hget(String.format(RedisConstants.USER_ACCOUNT_CHANG_RECORD, userName), round.toString());
+        if (StringUtils.isEmpty(bonus)) {
+            return ResultEnum.returnResultJson(ResultEnum.FAIL);
+        }
+        //分红
+        json.put("bonus", bonus);
+        //投资金额
+        String record = redisHelper.hget(String.format(RedisConstants.INVEST_OPERATE_RECORD, roomId),round.toString());
+        List<UserInvestRecordBean> userInvestRecordBeans = JSONArray.parseArray(record, UserInvestRecordBean.class);
+        if (!CollectionUtils.isEmpty(userInvestRecordBeans)) {
+            userInvestRecordBeans.stream().forEach(investRecord -> {
+                if (userName.equals(investRecord.getUserName())) {
+                    json.put("investAmt", investRecord.getAmount());
+                    return;
+                }
+            });
         }
 
         return json;
@@ -184,18 +216,21 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("房间账户金额为空:" + roomId);
         }
         BigDecimal roomSumMoney = new BigDecimal(roomAccount);
+        BigDecimal bonusTemp = BigDecimal.ZERO;
         if (CommonConstants.MONEY_THRESHOLD.compareTo(roomSumMoney) <= 0) {
             //分红金额
-            BigDecimal bonus = roomSumMoney.multiply(new BigDecimal(2)).divide(new BigDecimal(CommonConstants.ROOM_USER_MAX_COUNT), 2, RoundingMode.HALF_UP);
-            //获取投资人
-            Set<String> users = redisHelper.smembers(String.format(RedisConstants.ROOM_USER_SET, roomId));
-            if (!CollectionUtils.isEmpty(users)) {
-                //用户总钱数增加
-                users.stream().forEach(userName->{
-                    incrUserMoneyByLiquidation(bonus,userName,multi);
-                    redisHelper.multiHset(multi, String.format(RedisConstants.USER_ACCOUNT_CHANG_RECORD, userName), round.toString(), bonus.toPlainString());
-                });
-            }
+            bonusTemp  = roomSumMoney.multiply(new BigDecimal(2)).divide(new BigDecimal(CommonConstants.ROOM_USER_MAX_COUNT), 2, RoundingMode.HALF_UP);
+        }
+
+        final BigDecimal bonus = bonusTemp;
+        //获取投资人
+        Set<String> users = redisHelper.smembers(String.format(RedisConstants.ROOM_USER_SET, roomId));
+        if (!CollectionUtils.isEmpty(users)) {
+            //用户总钱数增加
+            users.stream().forEach(userName->{
+                incrUserMoneyByLiquidation(bonus,userName,multi);
+                redisHelper.multiHset(multi, String.format(RedisConstants.USER_ACCOUNT_CHANG_RECORD, userName), round.toString(), bonus.toPlainString());
+            });
         }
     }
 

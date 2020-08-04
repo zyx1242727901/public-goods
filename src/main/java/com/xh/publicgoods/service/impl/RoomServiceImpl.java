@@ -104,12 +104,42 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public JSONObject finalizeGame(String roomId){
-        //导出文件
-        outPutDataToExcel(roomId);
-        //关闭房间
-        this.destroyRoom(roomId);
+        if (redisHelper.setnx(String.format(RedisConstants.ROOM_FINALIZE_FLAG, roomId), "true", RedisConstants.ONE_HOUR) == 1) {
+            //导出文件
+            outPutDataToExcel(roomId);
+            //关闭房间
+            this.destroyRoom(roomId);
+        }
 
         return ResultEnum.returnResultJson(ResultEnum.SUCCESS);
+    }
+
+    @Override
+    public JSONObject queryStartFlag(String roomId) {
+        JSONObject json = ResultEnum.returnResultJson(ResultEnum.SUCCESS);
+        Long scard = redisHelper.scard(String.format(RedisConstants.ROOM_USER_SET, roomId));
+        if (CommonConstants.ROOM_USER_MAX_COUNT.compareTo(scard) > 0) {
+            json.put("startFlag", false);
+        } else {
+            json.put("startFlag", true);
+        }
+        return json;
+    }
+
+    @Override
+    public JSONObject queryFullInvestFlag(String roomId) {
+        JSONObject json = ResultEnum.returnResultJson(ResultEnum.SUCCESS);
+
+        String count = redisHelper.get(String.format(RedisConstants.ROOM_INVEST_USER_COUNT, roomId));
+        Boolean flag = Long.parseLong(StringUtils.isEmpty(count) ? "0" : count) >= CommonConstants.ROOM_USER_MAX_COUNT;
+        json.put("fullFlag", flag);
+        //返回房间账户总额
+        if (flag) {
+            String moneyKey = String.format(RedisConstants.ROOM_ACCOUNT, roomId);
+            json.put("roomAccountMoney", redisHelper.get(moneyKey));
+        }
+
+        return json;
     }
 
 
@@ -117,7 +147,7 @@ public class RoomServiceImpl implements RoomService {
         try {
             // 1. 使用File类打开一个文件；
             String filePath =new StringBuffer(".").append(File.separator).append("data_").append(roomId).append(".xlsx").toString();
-            EasyExcel.write(filePath, DataModel.class).sheet("sheet2").doWrite(packageData(roomId));
+            EasyExcel.write(filePath, DataModel.class).sheet("public-goods").doWrite(packageData(roomId));
         } catch (Exception e) {
             log.error("outPutDataToTxt ERROR",e);
             throw new RuntimeException(e);
@@ -141,7 +171,7 @@ public class RoomServiceImpl implements RoomService {
                     temp.setUserName(investRecord.getUserName());
                     temp.setRound(Long.parseLong(entry.getKey()));
                     temp.setInvestMoney(investRecord.getAmount());
-                    String bouns = redisHelper.hget(investRecord.getUserName(), entry.getKey());
+                    String bouns = redisHelper.hget(String.format(RedisConstants.USER_ACCOUNT_CHANG_RECORD,investRecord.getUserName()), entry.getKey());
                     temp.setBounsMoney(CommonConstants.USER_ROUND_INIT_MONEY.subtract(temp.getInvestMoney()).add(new BigDecimal(StringUtils.isEmpty(bouns) ? "0" : bouns)));
                     temp.setSumMoney(new BigDecimal(redisHelper.get(String.format(RedisConstants.USER_ACCOUNT_SUM_MONEY,temp.getUserName()))));
                     temp.setGender(JSON.parseObject(redisHelper.hget(RedisConstants.USER_INFO_HASH,temp.getUserName())).getString("gender"));
