@@ -4,6 +4,8 @@ public class RedisConstants {
     //===========================  有效期相关  ====================================
     public static final Integer ONE_HOUR = 60*60;
     public static final Integer FIVE_MINUTE = 60*5;
+    public static final int ONE_DAY = 60 * 60 * 24;
+
 
 
 

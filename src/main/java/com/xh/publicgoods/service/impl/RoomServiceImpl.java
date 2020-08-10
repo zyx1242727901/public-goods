@@ -4,6 +4,7 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.xh.publicgoods.bean.HallInfoVO;
 import com.xh.publicgoods.bean.UserInvestRecordBean;
 import com.xh.publicgoods.constants.CommonConstants;
 import com.xh.publicgoods.constants.RedisConstants;
@@ -35,7 +36,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public JSONObject getHallInfo() {
         JSONObject json = ResultEnum.returnResultJson(ResultEnum.SUCCESS);
-        Map<String, Long> resMap = new HashMap<>();
+        List<HallInfoVO> list = new ArrayList<>();
 
         //遍历房间set
         Set<String> smembers = redisHelper.smembers(RedisConstants.ROOM_ID_SET);
@@ -44,11 +45,11 @@ public class RoomServiceImpl implements RoomService {
             smembers.stream().forEach(roomId->{
                 //获取每个房间的人员数
                 Long userCount = redisHelper.scard(String.format(RedisConstants.ROOM_USER_SET, roomId));
-                resMap.put(roomId, userCount);
+                list.add(new HallInfoVO(roomId, userCount));
             });
         }
 
-        json.put("resMap", resMap);
+        json.put("resMap", list);
         return json;
     }
 
