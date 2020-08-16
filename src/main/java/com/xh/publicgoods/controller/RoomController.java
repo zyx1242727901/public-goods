@@ -25,6 +25,7 @@ public class RoomController {
      */
     @RequestMapping("/getHallInfo")
     public JSONObject getHallInfo(){
+
         return roomService.getHallInfo();
     }
 

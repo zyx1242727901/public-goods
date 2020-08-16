@@ -9,7 +9,6 @@
 <body>
 <div id="login">
     <h1>Login</h1>
-    <form method="post">
         <span style="color:greenyellow">subject Number:</span>
         <input type="text" required="required" placeholder="subjectNumber" name="userName" id="userName" required="required"/>
         <span style="color:greenyellow">Age:</span>
@@ -20,7 +19,6 @@
             <option value="FE_MALE" style="color:greenyellow">女</option>
         </select>
         <input  type="submit" value="登录" @click="login()" style=" width: 300px;height: 40px; "></input>
-    </form>
 </div>
 </body>
 <!-- 引入组件库 -->
@@ -30,11 +28,9 @@
 <script src="../js/axios-0.18.0.js"></script>
 <script src="../js/jquery-heima-0.0.1.js"></script>
 <script>
-  var vue=new Vue({
+  new Vue({
+    backend_url:"http://localhost:8888",
     el:'#login',
-    data:{
-      backend_url:"http://localhost:8888",
-    },
     methods: {
       login(){
         var username = $("#userName").val();

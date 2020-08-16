@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" type="text/css" href="../css/login.css"/>
+  <link rel="stylesheet" href="../plugins/elementui/index.css">
+  <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="../plugins/elementui/index.js"></script>
+  <script src="../js/axios-0.18.0.js"></script>
+</head>
+<body>
+  <div align="center" style="width: 80%; height:100%; margin: 0 auto; overflow:auto" id="firstVue">
+    <h2>游戏大厅</h2>
+    <template v-for='(item,index) in imgs' v-if='index%2==0'>
+            <tr>
+              <td>
+                <img :src="item.url"></br>
+                <p :roomId="item.roomId" onclick="joinRoom(item.roomId)">房间{{index+1}}</p>
+              </td>
+              <td v-if='index+1<imgs.length'>
+                <img :src="imgs[index+1].url"></br>
+                <p :roomId="item.roomId" onclick="joinRoom(item.roomId)">房间{{index+2}}</p>
+              </td>
+            </tr>
+    </template>
+  </div>
+</body>
+<script type="text/javascript">
+  var myVue = new Vue({
+    backend_url:"http://localhost:8888",
+    el: "#firstVue",
+    data: {
+      //imgName: "../img/full.png"
+      imgs: [
+          {url: "",
+            roomId:""}
+      ]
+      //num:3
+    },
+    created:function () {
+      this.init();
+    },
+    methods:{
+      joinRoom(data){
+
+      },
+      init(){
+        axios.get("/api/goods/room/getHallInfo").then((response) => {
+          console.log(response.data);
+         if(response.data.code == 'SUCCESS'){
+           this.imgs = []
+           for (let item of response.data.resMap) {
+             var img = {url:"",roomId:""}
+                if(item.manNum == 1){
+                  img.url = '../img/haveOneMan.png'
+                }else if (item.manNum == 2) {
+                  img.url = '../img/haveTwoMan.png'
+                }else if (item.manNum == 3) {
+                  img.url = '../img/haveThreeMan.png'
+                }else {
+                  img.url = '../img/full.png'
+                }
+             img.roomId = item.roomNum
+             if (img.url != '' && img.roomId != ''){
+               this.imgs.push(img)
+             }
+           }
+         }
+      });
+      }
+
+    }
+  })
+</script>
+</html>
