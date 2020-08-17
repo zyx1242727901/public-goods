@@ -18,12 +18,12 @@
             <tr>
               <td>
                 <img :src="item.url"></br>
-                <button  :roomId="item.roomId" @click="joinRoom(item.roomId)" disabled="true" v-show="item.manNum >= 4">加入房间{{index+1}}</button>
-                <button  :roomId="item.roomId" @click="joinRoom(item.roomId)" disabled="true" v-show="item.manNum < 4">加入房间{{index+1}}</button>
+                <button  :roomId="item.roomId" @click="joinRoom(item.roomId)"  v-show="item.manNum >= 4">加入房间{{index+1}}</button>
+                <button  :roomId="item.roomId" @click="joinRoom(item.roomId)"  v-show="item.manNum < 4">加入房间{{index+1}}</button>
               </td>
               <td v-if='index+1<imgs.length'>
                 <img :src="imgs[index+1].url"></br>
-                <button :roomId="item.roomId" @click="joinRoom(item.roomId)">加入房间{{index+2}}</button>
+                <button :roomId="imgs[index+1].roomId" @click="joinRoom(imgs[index+1].roomId)">加入房间{{index+2}}</button>
               </td>
             </tr>
     </template>
@@ -48,7 +48,12 @@
     },
     methods:{
       joinRoom(data){
-        console.log("11"+this.userName);
+        console.log(this.userName);
+        axios.get("/api/goods/user/"+this.userName+"/"+data+"/enterRoom").then((response) =>{
+          if (response.data.code == 'SUCCESS') {
+            location.href="rule.html"
+          }
+        })
       },
       getUserName(){
         var url = location.search //获取url中"?"符后的字串 ('?modFlag=business&role=1')
@@ -59,8 +64,7 @@
           for (var i = 0; i < strs.length; i++) {
             theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
           }
-          this.userName = theRequest
-          console.log(theRequest)
+          this.userName = theRequest.userName
         }
       },
       init(){
