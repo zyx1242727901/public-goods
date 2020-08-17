@@ -14,7 +14,7 @@
   document.onkeydown=function (e) {
     console.log(e.keyCode);//每一个键的keycode都不一样
     if (e.keyCode == 32) {
-      location.href="room.html"
+        this.$router.push({path:'room.html'})
     }
   };
 </script>

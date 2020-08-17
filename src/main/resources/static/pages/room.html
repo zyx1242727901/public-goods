@@ -18,11 +18,12 @@
             <tr>
               <td>
                 <img :src="item.url"></br>
-                <p :roomId="item.roomId" onclick="joinRoom(item.roomId)">房间{{index+1}}</p>
+                <button  :roomId="item.roomId" @click="joinRoom(item.roomId)" disabled="true" v-show="item.manNum >= 4">加入房间{{index+1}}</button>
+                <button  :roomId="item.roomId" @click="joinRoom(item.roomId)" disabled="true" v-show="item.manNum < 4">加入房间{{index+1}}</button>
               </td>
               <td v-if='index+1<imgs.length'>
                 <img :src="imgs[index+1].url"></br>
-                <p :roomId="item.roomId" onclick="joinRoom(item.roomId)">房间{{index+2}}</p>
+                <button :roomId="item.roomId" @click="joinRoom(item.roomId)">加入房间{{index+2}}</button>
               </td>
             </tr>
     </template>
@@ -36,16 +37,31 @@
       //imgName: "../img/full.png"
       imgs: [
           {url: "",
-            roomId:""}
-      ]
-      //num:3
+            roomId:"",
+          manNum:""}
+      ],
+      userName:""
     },
     created:function () {
+      this.getUserName();
       this.init();
     },
     methods:{
       joinRoom(data){
-
+        console.log("11"+this.userName);
+      },
+      getUserName(){
+        var url = location.search //获取url中"?"符后的字串 ('?modFlag=business&role=1')
+        var theRequest = new Object()
+        if (url.indexOf('?') != -1) {
+          var str = url.substr(1) //substr()方法返回从参数值开始到结束的字符串；
+          var strs = str.split('&')
+          for (var i = 0; i < strs.length; i++) {
+            theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
+          }
+          this.userName = theRequest
+          console.log(theRequest)
+        }
       },
       init(){
         axios.get("/api/goods/room/getHallInfo").then((response) => {
@@ -53,7 +69,7 @@
          if(response.data.code == 'SUCCESS'){
            this.imgs = []
            for (let item of response.data.resMap) {
-             var img = {url:"",roomId:""}
+             var img = {url:"",roomId:"",manNum:""}
                 if(item.manNum == 1){
                   img.url = '../img/haveOneMan.png'
                 }else if (item.manNum == 2) {
@@ -64,6 +80,7 @@
                   img.url = '../img/full.png'
                 }
              img.roomId = item.roomNum
+             img.manNum=item.manNum
              if (img.url != '' && img.roomId != ''){
                this.imgs.push(img)
              }
