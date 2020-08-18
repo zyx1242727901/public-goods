@@ -59,7 +59,7 @@
       joinRoom(data){
         axios.get("/api/goods/user/"+this.userName+"/"+data+"/enterRoom").then((response) =>{
           if (response.data.code == 'SUCCESS') {
-            location.href="wait.html?roomId="+data
+             location.href="wait.html?roomId="+data
           }
         })
       },

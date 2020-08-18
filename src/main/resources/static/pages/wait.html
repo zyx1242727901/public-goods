@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="../js/axios-0.18.0.js"></script>
 </head>
 <body>
 <div id="wait">
@@ -11,10 +13,40 @@
 </body>
 <script type="text/javascript">
     new Vue({
-        backend_url:"http://localhost:8888",
-        el: "#wait",
-        data:{},
-        methods:{}
-    })
+    backend_url:"http://localhost:8888",
+    el: "#wait",
+    data:{
+      roomId:"",
+      timer: '',
+    },
+      mounted() {
+        this.getRoomId()
+        this.timer = setInterval(this.getGameInfo, 3000);
+      },
+      beforeDestroy() {
+        clearInterval(this.timer);
+      },
+        methods:{
+          //轮询游戏是否开始
+          getGameInfo(){
+            axios.get("/api/goods/room/"+this.roomId+"/queryStartFlag").then((response)=>{
+              if(response.data.startFlag == true) {
+                location.href="rule.html"
+              }
+            })
+          },
+          getRoomId(){
+            var url = location.search //获取url中"?"符后的字串 ('?modFlag=business&role=1')
+            var theRequest = new Object()
+            if (url.indexOf('?') != -1) {
+              var str = url.substr(1) //substr()方法返回从参数值开始到结束的字符串；
+              var strs = str.split('&')
+              for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
+              }
+              this.roomId = theRequest.roomId
+          }
+        }
+    }})
 </script>
 </html>
