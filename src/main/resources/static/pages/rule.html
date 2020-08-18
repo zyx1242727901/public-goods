@@ -7,6 +7,7 @@
 </head>
 <body>
     <div id="rule">
+        <h1>游戏开始,请认真阅读规则:</h1></br>
        <img src="../img/rule.png" >
     </div>
 </body>
@@ -14,14 +15,13 @@
   document.onkeydown=function (e) {
     console.log(e.keyCode);//每一个键的keycode都不一样
     if (e.keyCode == 32) {
-        this.$router.push({path:'room.html'})
     }
   };
 </script>
 <style>
     #rule{
         position: absolute;
-        top: 50%;
+        top: 30%;
         left:40%;
         margin: -150px 0 0 -150px;
         width: 400px;

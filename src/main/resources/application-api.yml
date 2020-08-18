@@ -1,5 +1,5 @@
 redis:
   host: 39.105.95.181
   port: 6793
-  auth: 123456
+  auth: 123213
   timeout: 3000
