@@ -1,10 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="../js/axios-0.18.0.js"></script>
 </head>
 <body>
-    <h2>游戏中...</h2>
+    <div id="game1">
+        <h1>第{{round}}回合:</h1>
+        <span>本轮你存入的金钱数:</span><input id="money" v-model="money">(请输入0-100任意大小的金钱数目)</br>
+        <span id="span" class="a">{{time}}s</span>后默认为金额为0
+    </div>
 </body>
+<script type="text/javascript">
+
+    new Vue({
+        backend_url:"http://localhost:8888",
+        el: "#game1",
+        data:{
+            time:15,
+            box:"",
+            round:"",
+            userName:"",
+            roomId:"",
+            money:0
+        },
+        created:function (){
+            this.getParam()
+            this.box = setInterval(this.timeOut,1000)
+        },
+        updated:function(){
+            this.jumHtml()
+        },
+        methods:{
+            //敲回车跳转
+            jumHtml(){
+                var username = this.userName
+                var roomid = this.roomId
+                var round = this.round
+                var money = this.money
+                document.onkeydown=function (e) {
+                    if (e.keyCode == 13) {
+                        axios.get("api/goods/user/"+username+"/"+round+"/"+roomid+"/"+money+"/userInvest").then((res)=>{
+                            if (res.data.code=='SUCCESS'){
+                                location.href = "wait2.html?userName="+username+"&roomId="+roomid+"&round="+round+"&money="+money
+                            }
+                        })
+                    }
+                };
+
+            },
+            getParam(){
+                var url = location.search //获取url中"?"符后的字串 ('?modFlag=business&role=1')
+                var theRequest = new Object()
+                if (url.indexOf('?') != -1) {
+                    var str = url.substr(1) //substr()方法返回从参数值开始到结束的字符串；
+                    var strs = str.split('&')
+                    for (var i = 0; i < strs.length; i++) {
+                        theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
+                    }
+                    this.userName = theRequest.userName
+                    this.roomId = theRequest.roomId
+                    this.round = theRequest.round
+                }
+            },
+            timeOut(){
+                this.time--;
+                if(this.time == 0){
+                    clearInterval(this.box);//清除计时器
+                    axios.get("api/goods/user/"+username+"/"+round+"/"+roomid+"/"+money+"/userInvest").then((res)=>{
+                        if (res.data.code=='SUCCESS'){
+                            location.href = "wait2.html?userName="+this.userName+"&roomId="+this.roomId+"&round="+this.round+"&money="+this.money
+                        }
+                    })
+
+                }
+            }
+        }
+    })
+</script>
 </html>

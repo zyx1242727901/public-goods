@@ -42,24 +42,29 @@
             roomId:"",
           manNum:""}
       ],
-      userName:""
+      userName:"",
+      timer:""
     },
     created:function () {
       this.getUserName();
       this.init();
+      this.timer = setInterval(this.init, 3000);
+    },
+    beforeDestroy() {
+      clearInterval(this.timer);
     },
     methods:{
       creatRoom(){
         axios.get("/api/goods/room/createRoom").then((response)=>{
           if (response.data.code == 'SUCCESS') {
-            location.href="wait.html?roomId="+data
+            location.href="wait.html?roomId="+data+"&userName="+this.userName
           }
         })
       },
       joinRoom(data){
         axios.get("/api/goods/user/"+this.userName+"/"+data+"/enterRoom").then((response) =>{
           if (response.data.code == 'SUCCESS') {
-             location.href="wait.html?roomId="+data
+             location.href="wait.html?roomId="+data+"&userName="+this.userName
           }
         })
       },

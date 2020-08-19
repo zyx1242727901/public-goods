@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <div id="fk">
+        <h1>本轮存钱结束,公共账户余额:</h1>{{zMoney}}元
+    </div>
+
+</body>
+<script type="text/javascript">
+    new Vue({
+        backend_url:"http://localhost:8888",
+        el: "#fk",
+        data:{
+            zMoney:15
+        }
+
+    })
+</script>
+
+</html>

@@ -17,21 +17,22 @@
     el: "#wait",
     data:{
       roomId:"",
-      timer: '',
+      timer: "",
+        userName:""
     },
       mounted() {
         this.getRoomId()
         this.timer = setInterval(this.getGameInfo, 3000);
       },
       beforeDestroy() {
-        clearInterval(this.timer);
-      },
+            clearInterval(this.timer);
+        },
         methods:{
           //轮询游戏是否开始
           getGameInfo(){
             axios.get("/api/goods/room/"+this.roomId+"/queryStartFlag").then((response)=>{
               if(response.data.startFlag == true) {
-                location.href="rule.html"
+                location.href="rule.html?roomId="+this.roomId+"&userName="+this.userName
               }
             })
           },
@@ -45,6 +46,7 @@
                 theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
               }
               this.roomId = theRequest.roomId
+                this.userName = theRequest.userName
           }
         }
     }})

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="../css/login.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 </head>
 <body>
     <div id="rule">
@@ -12,11 +13,39 @@
     </div>
 </body>
 <script>
-  document.onkeydown=function (e) {
-    console.log(e.keyCode);//每一个键的keycode都不一样
-    if (e.keyCode == 32) {
-    }
-  };
+  new Vue({
+      el: "#rule",
+      data:{
+          userName:"",
+          roomId:""
+      },
+      mounted:function(){
+          this.getParam()
+          var username=this.userName
+          var roomid = this.roomId
+          document.onkeydown=function (e) {
+              if (e.keyCode == 32) {
+                  location.href="game.html?userName="+username+"&roomId="+roomid+"&round=1"
+              }
+          };
+      },
+      methods:{
+          getParam(){
+              var url = location.search //获取url中"?"符后的字串 ('?modFlag=business&role=1')
+              var theRequest = new Object()
+              if (url.indexOf('?') != -1) {
+                  var str = url.substr(1) //substr()方法返回从参数值开始到结束的字符串；
+                  var strs = str.split('&')
+                  for (var i = 0; i < strs.length; i++) {
+                      theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
+                  }
+                  this.userName = theRequest.userName
+                  this.roomId = theRequest.roomId
+              }
+          }
+
+      }
+  })
 </script>
 <style>
     #rule{
