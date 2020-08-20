@@ -1,15 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+  <link rel="stylesheet" type="text/css" href="../css/login.css"/>
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script src="../js/axios-0.18.0.js"></script>
 </head>
+<style>
+  #fk2{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    margin: -150px 0 0 -150px;
+    width: 500px;
+    height: 400px;
+  }
+</style>
 <body>
   <div id="fk2">
     <h1>第{{round}}轮游戏结束:</h1>
-    <h3>初始资金:100 + 本轮分红:{{bouns}}- 本轮投资:{{investAmt}} = 本轮收益:{{shouyiMoney}}</h3>
+    <h3>初始资金:100 + 本轮分红:{{bouns}}- 本轮投资:{{investAmt}}</h3></br>
+      <h3>= 本轮收益:{{shouyiMoney}}</h3>
     <h3>{{time}}s后跳转页面</h3>
   </div>
 </body>
@@ -25,7 +37,7 @@
       investAmt:0,//投资金额
       shouyiMoney:0,
       box:"",
-      time:100
+      time:5
     },
     created:function () {
       this.getParam()
