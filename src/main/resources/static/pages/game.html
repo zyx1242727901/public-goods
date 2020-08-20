@@ -86,6 +86,7 @@
                     clearInterval(this.box);//清除计时器
                     axios.get("/api/goods/user/"+this.userName+"/"+this.round+"/"+this.roomId+"/"+this.money+"/userInvest").then((res)=>{
                         if (res.data.code=='SUCCESS'){
+                          clearInterval(this.box);
                             location.href = "wait2.html?userName="+this.userName+"&roomId="+this.roomId+"&round="+this.round+"&money="+this.money
                         }
                     })

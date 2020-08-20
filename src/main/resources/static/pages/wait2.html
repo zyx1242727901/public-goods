@@ -37,6 +37,9 @@
       this.getParam()
       this.box = setInterval(this.testTrue,3000)
     },
+    beforeDestroy() {
+      clearInterval(this.timer);
+    },
     methods:{
       getParam(){
         var url = location.search //获取url中"?"符后的字串 ('?modFlag=business&role=1')

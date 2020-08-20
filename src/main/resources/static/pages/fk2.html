@@ -44,11 +44,13 @@
       this.huiheqingsuan()
       this.box = setInterval(this.timeOut,1000)
     },
+    beforeDestroy() {
+      clearInterval(this.timer);
+    },
     methods:{
       timeOut(){
         this.time--;
         if(this.time == 0){
-          clearInterval(this.box);//清除计时器
           this.jumPages()
         }
       },
@@ -60,6 +62,7 @@
           axios.get("/api/goods/room/"+this.roomId+"/finalizeGame")
           .then((res)=>{
             if (res.data.code=='SUCCESS'){
+              clearInterval(this.box);
               location.href="finish.html"
             }
           })
@@ -76,8 +79,6 @@
               this.shouyiMoney = 100 + j  - this.investAmt
             }
           })
-        } else {
-
         }
       },
       getParam(){
