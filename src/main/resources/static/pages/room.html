@@ -19,12 +19,13 @@
               <td>
                 <img :src="item.url">
                 </br>
-                <button  :roomId="item.roomId" @click="joinRoom(item.roomId)"  v-show="item.manNum >= 4">加入房间{{index+1}}</button>
                 <button  :roomId="item.roomId" @click="joinRoom(item.roomId)"  v-show="item.manNum < 4">加入房间{{index+1}}</button>
+                <button  :roomId="item.roomId" @click="joinRoom(item.roomId)" disabled="disabled" v-show="item.manNum >= 4">房间{{index+1}}人员已满</button>
               </td>
               <td v-if='index+1<imgs.length'>
                 <img :src="imgs[index+1].url"></br>
-                <button :roomId="imgs[index+1].roomId" @click="joinRoom(imgs[index+1].roomId)">加入房间{{index+2}}</button>
+                <button :roomId="imgs[index+1].roomId" @click="joinRoom(imgs[index+1].roomId)" v-show="item.manNum < 4">加入房间{{index+2}}</button>
+                <button :roomId="imgs[index+1].roomId" @click="joinRoom(imgs[index+1].roomId)" disabled="disabled" v-show="item.manNum >= 4">房间{{index+2}}人员已满</button>
               </td>
             </tr>
     </template>
@@ -40,7 +41,7 @@
       imgs: [
           {url: "",
             roomId:"",
-          manNum:""}
+          manNum:0}
       ],
       userName:"",
       timer:""
@@ -57,7 +58,8 @@
       creatRoom(){
         axios.get("/api/goods/room/createRoom").then((response)=>{
           if (response.data.code == 'SUCCESS') {
-            location.href="wait.html?roomId="+data+"&userName="+this.userName
+            this.joinRoom(response.data.roomId)
+            location.href="wait.html?roomId="+response.data.roomId+"&userName="+this.userName
           }
         })
       },
@@ -86,8 +88,10 @@
          if(response.data.code == 'SUCCESS'){
            this.imgs = []
            for (let item of response.data.resMap) {
-             var img = {url:"",roomId:"",manNum:""}
-                if(item.manNum == 1){
+             var img = {url:"",roomId:"",manNum:0}
+             if (item.manNum == 0){
+               img.url = '../img/isNoLogin.png'
+             }else if(item.manNum == 1){
                   img.url = '../img/haveOneMan.png'
                 }else if (item.manNum == 2) {
                   img.url = '../img/haveTwoMan.png'
@@ -104,6 +108,7 @@
            }
          }
       });
+        console.log(11)
       }
 
     }

@@ -3,21 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+  <link rel="stylesheet" type="text/css" href="../css/login.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 </head>
 <body>
     <div id="fk">
-        <h1>本轮存钱结束,公共账户余额:</h1>{{zMoney}}元
+        <h1>本轮存钱结束,公共账户余额:</h1>{{roomAccountMoney}}元</br>
+        <span>{{time}}</span>s后跳转页面
     </div>
 
 </body>
+<style>
+  #fk{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    margin: -150px 0 0 -150px;
+    width: 500px;
+    height: 400px;
+  }
+</style>
 <script type="text/javascript">
     new Vue({
         backend_url:"http://localhost:8888",
         el: "#fk",
         data:{
-            zMoney:15
+          time:10,
+          round:"",
+          userName:"",
+          roomId:"",
+          money:0,
+          box:"",
+          roomAccountMoney:""
+        },
+      created:function(){
+          this.getParam()
+        this.box = setInterval(this.timeOut,1000)
+      },
+      methods:{
+          jumPages(){
+            location.href="fk2.html?userName="+this.userName+"&roomId="+this.roomId+"&round="+
+                this.round+"&money="+this.money
+          },
+        getParam(){
+          var url = location.search //获取url中"?"符后的字串 ('?modFlag=business&role=1')
+          var theRequest = new Object()
+          if (url.indexOf('?') != -1) {
+            var str = url.substr(1) //substr()方法返回从参数值开始到结束的字符串；
+            var strs = str.split('&')
+            for (var i = 0; i < strs.length; i++) {
+              theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
+            }
+            this.userName = theRequest.userName
+            this.roomId = theRequest.roomId
+            this.round = theRequest.round
+            this.money=theRequest.money
+            this.roomAccountMoney=theRequest.roomAccountMoney
+          }
+        },
+        timeOut(){
+          this.time--;
+          if(this.time == 0){
+            clearInterval(this.box);//清除计时器
+            location.href="fk2.html?userName="+this.userName+"&roomId="+this.roomId+"&round="+
+                this.round+"&money="+this.money
+          }
         }
+      }
 
     })
 </script>
