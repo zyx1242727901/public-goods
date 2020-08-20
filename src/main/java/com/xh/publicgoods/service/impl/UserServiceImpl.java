@@ -189,7 +189,6 @@ public class UserServiceImpl implements UserService {
         }
 
         redisHelper.hset(RedisConstants.USER_INFO_HASH, userName, JSONObject.toJSONString(new UserInfo(userName, age, gender)));
-        redisHelper.expire(RedisConstants.USER_INFO_HASH, RedisConstants.ONE_DAY * 3);
         JSONObject jsonObject = ResultEnum.returnResultJson(ResultEnum.SUCCESS);
         jsonObject.put("userName", userName);
         return jsonObject;
