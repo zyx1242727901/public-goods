@@ -57,7 +57,7 @@
       creatRoom(){
         axios.get("/api/goods/room/createRoom").then((response)=>{
           if (response.data.code == 'SUCCESS') {
-            location.href="wait.html?roomId="+data+"&userName="+this.userName
+            location.href="wait.html?roomId="+response.data.roomId+"&userName="+this.userName
           }
         })
       },
@@ -87,7 +87,9 @@
            this.imgs = []
            for (let item of response.data.resMap) {
              var img = {url:"",roomId:"",manNum:""}
-                if(item.manNum == 1){
+             if (item.manNum == 0){
+               img.url = '../img/isNoLogin.png'
+             }else if(item.manNum == 1){
                   img.url = '../img/haveOneMan.png'
                 }else if (item.manNum == 2) {
                   img.url = '../img/haveTwoMan.png'

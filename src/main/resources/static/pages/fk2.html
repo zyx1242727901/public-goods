@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="../js/axios-0.18.0.js"></script>
+</head>
+<body>
+  <div id="fk2">
+    <h1>第{{round}}轮游戏结束:</h1>
+    <h3>初始资金:100 + 本轮分红:{{bouns}}- 本轮投资:{{investAmt}} = 本轮收益:{{shouyiMoney}}</h3>
+    <h3>{{time}}s后跳转页面</h3>
+  </div>
+</body>
+<script type="text/javascript">
+  new Vue({
+    backend_url:"http://localhost:8888",
+    el: "#fk2",
+    data:{
+      round:"",
+      userName:"",
+      roomId:"",
+      bouns:0,//分红金额
+      investAmt:0,//投资金额
+      shouyiMoney:0,
+      box:"",
+      time:100
+    },
+    created:function () {
+      this.getParam()
+      this.huiheqingsuan()
+      this.box = setInterval(this.timeOut,1000)
+    },
+    methods:{
+      timeOut(){
+        this.time--;
+        if(this.time == 0){
+          clearInterval(this.box);//清除计时器
+          this.jumPages()
+        }
+      },
+      jumPages(){
+        if (this.round<12){
+          var round = parseInt(this.round)+1
+          location.href="game.html?userName="+this.userName+"&roomId="+this.roomId+"&round="+round
+        }else {
+          axios.get("/api/goods/room/"+this.roomId+"/finalizeGame")
+          .then((res)=>{
+            if (res.data.code=='SUCCESS'){
+              location.href="finish.html"
+            }
+          })
+        }
+      },
+      huiheqingsuan(){
+        if (this.round<12){
+          axios.get("/api/goods/user/"+this.userName+"/"+this.round+"/"+this.roomId+"/liquidation")
+          .then((res)=>{
+            if (res.data.code=='SUCCESS'){
+              this.bouns = res.data.bonus
+              this.investAmt = res.data.investAmt
+              var j = parseInt(this.bouns)
+              this.shouyiMoney = 100 + j  - this.investAmt
+            }
+          })
+        } else {
+
+        }
+      },
+      getParam(){
+        var url = location.search //获取url中"?"符后的字串 ('?modFlag=business&role=1')
+        var theRequest = new Object()
+        if (url.indexOf('?') != -1) {
+          var str = url.substr(1) //substr()方法返回从参数值开始到结束的字符串；
+          var strs = str.split('&')
+          for (var i = 0; i < strs.length; i++) {
+            theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
+          }
+          this.userName = theRequest.userName
+          this.roomId = theRequest.roomId
+          this.round = theRequest.round
+        }
+      }
+
+    }
+  })
+</script>
+</html>

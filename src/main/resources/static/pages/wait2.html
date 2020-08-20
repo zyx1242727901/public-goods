@@ -3,8 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="../js/axios-0.18.0.js"></script>
 </head>
 <body>
-    <h1>请等待其他人投资完成..</h1>
+    <div id="wait2">
+        <h1>请等待其他人投资完成..</h1>
+    </div>
 </body>
+<script type="text/javascript">
+  new Vue({
+    backend_url:"http://localhost:8888",
+    el: "#wait2",
+    data:{
+      round:"",
+      userName:"",
+      roomId:"",
+      money:0,
+      box:"",
+      roomAccountMoney:""
+    },
+    created:function(){
+      this.getParam()
+      this.box = setInterval(this.testTrue,3000)
+    },
+    methods:{
+      getParam(){
+        var url = location.search //获取url中"?"符后的字串 ('?modFlag=business&role=1')
+        var theRequest = new Object()
+        if (url.indexOf('?') != -1) {
+          var str = url.substr(1) //substr()方法返回从参数值开始到结束的字符串；
+          var strs = str.split('&')
+          for (var i = 0; i < strs.length; i++) {
+            theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
+          }
+          this.userName = theRequest.userName
+          this.roomId = theRequest.roomId
+          this.round = theRequest.round
+          this.money=theRequest.money
+        }
+      },
+      testTrue(){
+        axios.get("/api/goods/room/"+this.roomId+"/queryFullInvestFlag").then((res)=>{
+          if (res.data.fullFlag == true) {
+            this.roomAccountMoney = res.data.roomAccountMoney
+            location.href="fk.html?userName="+this.userName+"&roomId="+this.roomId+"&round="
+            +this.round+"&money="+this.money+"&roomAccountMoney="+this.roomAccountMoney
+          }
+        })
+      }
+
+    }
+  })
+</script>
 </html>
