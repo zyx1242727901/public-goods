@@ -16,7 +16,7 @@ public class PublicGoodsTask {
     /**
      * 用户信息删除，解决用户名重复问题
      */
-    @Scheduled(cron = "0 0 0 1/3 * ?")
+    @Scheduled(cron = "0 0 0 1/2 * ?")
     public void initUserInfo(){
         log.info("============PublicGoodsTask.initUserInfo enter============");
         redisHelper.del(RedisConstants.USER_INFO_HASH);
