@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>爱你呦</title>
   <link rel="stylesheet" type="text/css" href="../css/login.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 </head>
@@ -40,6 +40,9 @@
           this.getParam()
         this.box = setInterval(this.timeOut,1000)
       },
+      beforeDestroy() {
+        clearInterval(this.timer);
+      },
       methods:{
           jumPages(){
             location.href="fk2.html?userName="+this.userName+"&roomId="+this.roomId+"&round="+
@@ -64,7 +67,6 @@
         timeOut(){
           this.time--;
           if(this.time == 0){
-            clearInterval(this.box);//清除计时器
             location.href="fk2.html?userName="+this.userName+"&roomId="+this.roomId+"&round="+
                 this.round+"&money="+this.money
           }
