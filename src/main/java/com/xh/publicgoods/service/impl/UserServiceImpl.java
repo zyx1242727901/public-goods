@@ -63,6 +63,9 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(roomId) || round == null || amount == null) {
             return ResultEnum.returnResultJson(ResultEnum.E0000002);
         }
+        if (amount.compareTo(CommonConstants.USER_ROUND_INIT_MONEY) > 0) {
+            return ResultEnum.returnResultJson(ResultEnum.E0000006);
+        }
         //校验是否当前回合已投过
         String investRecord = redisHelper.hget(String.format(RedisConstants.INVEST_OPERATE_RECORD, roomId), round.toString());
         if (!StringUtils.isEmpty(investRecord) && investRecord.contains('\"'+userName+'\"')) {
@@ -76,33 +79,32 @@ public class UserServiceImpl implements UserService {
         String secondKey = round.toString();
 
         RLock lock = redisHelper.getLock(String.format(RedisConstants.LOCK_ROOM, roomId));
-        if(lock.tryLock()){
-            Jedis jedis = redisHelper.getInstance();
+        Jedis jedis = redisHelper.getInstance();
+        try {
+            lock.lock();
+            Transaction multi = jedis.multi();
 
-            try {
-                Transaction multi = jedis.multi();
+            //用户投资行为保存
+            String record = redisHelper.hget(firstKey, secondKey);
+            JSONArray array = StringUtils.isEmpty(record) ? new JSONArray() : JSONArray.parseArray(record);
+            array.add(currentRecord);
+            redisHelper.multiHset(multi, firstKey, secondKey, array.toJSONString());
+            //账户金额变更
+            incrUserMoneyByInvest(amount, userName, multi);
+            //房间账户增加
+            redisHelper.multiIncr(multi, String.format(RedisConstants.ROOM_ACCOUNT, roomId), amount.longValue());
+            //房间已投人数变更
+            redisHelper.multiIncr(multi, String.format(RedisConstants.ROOM_INVEST_USER_COUNT, roomId), 1L);
+            redisHelper.exec(multi);
 
-                //用户投资行为保存
-                String record = redisHelper.hget(firstKey, secondKey);
-                JSONArray array = StringUtils.isEmpty(record) ? new JSONArray() : JSONArray.parseArray(record);
-                array.add(currentRecord);
-                redisHelper.multiHset(multi, firstKey, secondKey, array.toJSONString());
-                //账户金额变更
-                incrUserMoneyByInvest(amount, userName, multi);
-                //房间账户增加
-                redisHelper.multiIncr(multi, String.format(RedisConstants.ROOM_ACCOUNT, roomId), amount.longValue());
-                //房间已投人数变更
-                redisHelper.multiIncr(multi, String.format(RedisConstants.ROOM_INVEST_USER_COUNT, roomId), 1L);
-                redisHelper.exec(multi);
-
-            } catch (Exception e) {
-                log.error("UserServiceImpl.userInvest ERROR params::" + userName + "," + roomId + "," + round + "," + amount, e);
-                return ResultEnum.returnResultJson(ResultEnum.FAIL);
-            }finally {
-                lock.unlock();
-                jedis.close();
-            }
+        } catch (Exception e) {
+            log.error("UserServiceImpl.userInvest ERROR params::" + userName + "," + roomId + "," + round + "," + amount, e);
+            return ResultEnum.returnResultJson(ResultEnum.FAIL);
+        }finally {
+            lock.unlock();
+            jedis.close();
         }
+
 
         return json;
     }
@@ -137,7 +139,7 @@ public class UserServiceImpl implements UserService {
                 redisHelper.multiSetex(multi, String.format(RedisConstants.ROOM_ACCOUNT, roomId), "0", RedisConstants.ONE_HOUR);
                 redisHelper.exec(multi);
                 //设置清算结束标志位
-                redisHelper.setex(flagKey, "true", RedisConstants.FIVE_MINUTE);
+                redisHelper.setex(flagKey, "true", RedisConstants.ONE_DAY);
 
                 return getLiquidationRes(roomId, round, userName);
             } catch (Exception e) {
@@ -152,7 +154,7 @@ public class UserServiceImpl implements UserService {
             while (true) {
                 TimeUnit.SECONDS.sleep(2);
                 if (!StringUtils.isEmpty(redisHelper.get(flagKey))){
-                    return getLiquidationRes(roomId, round, userName);
+                    return liquidation(round, roomId, userName);
                 }
             }
         }
@@ -235,5 +237,7 @@ public class UserServiceImpl implements UserService {
             });
         }
     }
+
+
 
 }

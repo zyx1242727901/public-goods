@@ -147,7 +147,7 @@ public class RoomServiceImpl implements RoomService {
     public void outPutDataToExcel(String roomId){
         try {
             // 1. 使用File类打开一个文件；
-            String filePath =new StringBuffer(".").append(File.separator).append("data_").append(roomId).append(".xlsx").toString();
+            String filePath =new StringBuffer(".").append(File.separator).append("excel").append(File.separator).append("data_").append(roomId).append(".xlsx").toString();
             EasyExcel.write(filePath, DataModel.class).sheet("public-goods").doWrite(packageData(roomId));
         } catch (Exception e) {
             log.error("outPutDataToTxt ERROR",e);
