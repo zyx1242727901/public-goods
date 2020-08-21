@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>爱你呦</title>
   <link rel="stylesheet" type="text/css" href="../css/login.css"/>
   <link rel="stylesheet" href="../plugins/elementui/index.css">
   <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
@@ -13,23 +13,29 @@
 </head>
 <body>
   <div align="center" style="width: 80%; height:100%; margin: 0 auto; overflow:auto" id="firstVue">
-    <h2>游戏大厅</h2>
-    <template v-for='(item,index) in imgs' v-if='index%2==0'>
-            <tr>
-              <td>
-                <img :src="item.url">
-                </br>
-                <button  :roomId="item.roomId" @click="joinRoom(item.roomId)"  v-show="item.manNum < 4">加入房间{{index+1}}</button>
-                <button  :roomId="item.roomId" @click="joinRoom(item.roomId)" disabled="disabled" v-show="item.manNum >= 4">房间{{index+1}}人员已满</button>
-              </td>
-              <td v-if='index+1<imgs.length'>
-                <img :src="imgs[index+1].url"></br>
-                <button :roomId="imgs[index+1].roomId" @click="joinRoom(imgs[index+1].roomId)" v-show="item.manNum < 4">加入房间{{index+2}}</button>
-                <button :roomId="imgs[index+1].roomId" @click="joinRoom(imgs[index+1].roomId)" disabled="disabled" v-show="item.manNum >= 4">房间{{index+2}}人员已满</button>
-              </td>
-            </tr>
+    <tr>
+      <h2>游戏大厅</h2>
+    </tr>
+    <tr>
+      <template v-for='(item,index) in imgs' v-if='index%2==0'>
+    <tr>
+      <td>
+        <img :src="item.url">
+        </br>
+        <button  :roomId="item.roomId" @click="joinRoom(item.roomId)"  v-show="item.manNum < 4">加入房间{{index+1}}</button>
+        <button  :roomId="item.roomId" @click="joinRoom(item.roomId)" disabled="disabled" v-show="item.manNum >= 4">房间{{index+1}}人员已满</button>
+      </td>
+      <td v-if='index+1<imgs.length'>
+        <img :src="imgs[index+1].url"></br>
+        <button :roomId="imgs[index+1].roomId" @click="joinRoom(imgs[index+1].roomId)" v-show="item.manNum < 4">加入房间{{index+2}}</button>
+        <button :roomId="imgs[index+1].roomId" @click="joinRoom(imgs[index+1].roomId)" disabled="disabled" v-show="item.manNum >= 4">房间{{index+2}}人员已满</button>
+      </td>
+    </tr>
     </template>
-    <button @click="creatRoom()"> 创建房间</button>
+    </tr>
+    <tr>
+      <button @click="creatRoom()"> 创建房间</button>
+    </tr>
   </div>
 </body>
 <script type="text/javascript">
@@ -58,8 +64,14 @@
       creatRoom(){
         axios.get("/api/goods/room/createRoom").then((response)=>{
           if (response.data.code == 'SUCCESS') {
-            this.joinRoom(response.data.roomId)
-            location.href="wait.html?roomId="+response.data.roomId+"&userName="+this.userName
+            //创建成功加入房间
+            var roomid = response.data.roomId
+            axios.get("/api/goods/user/"+this.userName+"/"+roomid+"/enterRoom").then((res) =>{
+              if (response.data.code == 'SUCCESS'){
+                location.href="wait.html?roomId="+roomid+"&userName="+this.userName
+              }
+            })
+
           }
         })
       },
