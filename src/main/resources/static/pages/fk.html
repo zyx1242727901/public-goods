@@ -8,7 +8,7 @@
 </head>
 <body>
     <div id="fk">
-        <h1>本轮存钱结束,公共账户余额:</h1>{{roomAccountMoney}}元</br>
+      <h1>本轮存钱结束,公共账户余额:</h1><h2>{{roomAccountMoney}}元</h2></br>
         <span>{{time}}</span>s后跳转页面
     </div>
 
@@ -28,7 +28,7 @@
         backend_url:"http://localhost:8888",
         el: "#fk",
         data:{
-          time:10,
+          time:15,
           round:"",
           userName:"",
           roomId:"",

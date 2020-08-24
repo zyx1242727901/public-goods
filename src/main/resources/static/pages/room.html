@@ -17,9 +17,9 @@
       <h2>游戏大厅</h2>
     </tr>
     <tr>
-      <template v-for='(item,index) in imgs' v-if='index%2==0'>
+      <template v-for='(item,index) in imgs'>
     <tr>
-      <td>
+      <td v-if='index%2==0'>
         <img :src="item.url">
         </br>
         <button  :roomId="item.roomId" @click="joinRoom(item.roomId)"  v-show="item.manNum < 4">加入房间{{item.roomId}}</button>
@@ -27,8 +27,8 @@
       </td>
       <td v-if='index+1<imgs.length'>
         <img :src="imgs[index+1].url"></br>
-        <button :roomId="imgs[index+1].roomId" @click="joinRoom(imgs[index+1].roomId)" v-show="item.manNum < 4">加入房间{{item.roomId}}</button>
-        <button :roomId="imgs[index+1].roomId" @click="joinRoom(imgs[index+1].roomId)" disabled="disabled" v-show="item.manNum >= 4">房间{{item.roomId}}人员已满</button>
+        <button :roomId="imgs[index+1].roomId" @click="joinRoom(imgs[index+1].roomId)" v-show="imgs[index+1].manNum < 4">加入房间{{imgs[index+1].roomId}}</button>
+        <button :roomId="imgs[index+1].roomId" @click="joinRoom(imgs[index+1].roomId)" disabled="disabled" v-show="imgs[index+1].manNum >= 4">房间{{imgs[index+1].roomId}}人员已满</button>
       </td>
     </tr>
     </template>

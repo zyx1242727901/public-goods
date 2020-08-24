@@ -20,9 +20,10 @@
 <body>
   <div id="fk2">
     <h1>第{{round}}轮游戏结束:</h1>
-    <h3>初始资金:100 + 本轮分红:{{bouns}}- 本轮投资:{{investAmt}}</h3></br>
-      <h3>= 本轮收益:{{shouyiMoney}}</h3>
-    <h3>{{time}}s后跳转页面</h3>
+    <h2>初始资金:100 + 本轮分红:{{bouns}}- 本轮投资:{{investAmt}}</h2></br>
+    <h2>= 本轮收益:{{shouyiMoney}}</h2></br>
+    <h2>当前账户总金额:{{sumAmt}}</h2>
+    <span>{{time}}s后跳转页面</span>
   </div>
 </body>
 <script type="text/javascript">
@@ -30,14 +31,15 @@
     backend_url:"http://localhost:8888",
     el: "#fk2",
     data:{
-      round:"",
+      round:0,
       userName:"",
       roomId:"",
       bouns:0,//分红金额
       investAmt:0,//投资金额
       shouyiMoney:0,
       box:"",
-      time:10
+      time:15,
+      sumAmt:0
     },
     created:function () {
       this.getParam()
@@ -50,7 +52,7 @@
     methods:{
       timeOut(){
         this.time--;
-        if(this.time == 0){
+        if(this.time == 1){
           this.jumPages()
         }
       },
@@ -69,13 +71,14 @@
         }
       },
       huiheqingsuan(){
-        if (this.round<12){
+        if (this.round<=12){
           axios.get("/api/goods/user/"+this.userName+"/"+this.round+"/"+this.roomId+"/liquidation")
           .then((res)=>{
             if (res.data.code=='SUCCESS'){
               this.bouns = res.data.bonus
               this.investAmt = res.data.investAmt
-              var j = parseInt(this.bouns)
+              this.sumAmt = res.data.sumAmt
+              var j = parseFloat(this.bouns)
               this.shouyiMoney = 100 + j  - this.investAmt
             }
           })
