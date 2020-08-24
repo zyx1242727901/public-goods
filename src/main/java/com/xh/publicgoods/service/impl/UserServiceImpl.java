@@ -169,6 +169,9 @@ public class UserServiceImpl implements UserService {
         }
         //分红
         json.put("bonus", bonus);
+        //账户总金额
+        String currentAmt = redisHelper.get(String.format(RedisConstants.USER_ACCOUNT_SUM_MONEY, userName));
+        json.put("sumAmt", currentAmt);
         //投资金额
         String record = redisHelper.hget(String.format(RedisConstants.INVEST_OPERATE_RECORD, roomId),round.toString());
         List<UserInvestRecordBean> userInvestRecordBeans = JSONArray.parseArray(record, UserInvestRecordBean.class);

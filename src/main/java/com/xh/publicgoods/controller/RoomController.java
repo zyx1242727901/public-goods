@@ -60,8 +60,9 @@ public class RoomController {
     /**
      * 是否已全部投资完 -- 轮询接口
      */
-    @RequestMapping("/{roomId}/queryFullInvestFlag")
-    public JSONObject queryFullInvestFlag(@PathVariable("roomId") String roomId){
-        return roomService.queryFullInvestFlag(roomId);
+    @RequestMapping("/{round}/{roomId}/queryFullInvestFlag")
+    public JSONObject queryFullInvestFlag(@PathVariable("roomId") String roomId,
+                                          @PathVariable("round") Long round){
+        return roomService.queryFullInvestFlag(roomId, round);
     }
 }

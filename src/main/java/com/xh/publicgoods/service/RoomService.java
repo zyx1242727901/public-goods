@@ -20,5 +20,5 @@ public interface RoomService {
 
     JSONObject queryStartFlag(String roomId);
 
-    JSONObject queryFullInvestFlag(String roomId);
+    JSONObject queryFullInvestFlag(String roomId, Long round);
 }

@@ -128,11 +128,19 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public JSONObject queryFullInvestFlag(String roomId) {
+    public JSONObject queryFullInvestFlag(String roomId, Long round) {
         JSONObject json = ResultEnum.returnResultJson(ResultEnum.SUCCESS);
 
         String count = redisHelper.get(String.format(RedisConstants.ROOM_INVEST_USER_COUNT, roomId));
         Boolean flag = Long.parseLong(StringUtils.isEmpty(count) ? "0" : count) >= CommonConstants.ROOM_USER_MAX_COUNT;
+        //查询已投人数
+        String investRecord = redisHelper.hget(String.format(RedisConstants.INVEST_OPERATE_RECORD, roomId), round.toString());
+        List<UserInvestRecordBean> recordBeans = null;
+        if (!StringUtils.isEmpty(investRecord)) {
+            recordBeans = JSONArray.parseArray(investRecord, UserInvestRecordBean.class);
+        }
+
+        json.put("investUser", recordBeans);
         json.put("fullFlag", flag);
         //返回房间账户总额
         if (flag) {
@@ -147,7 +155,13 @@ public class RoomServiceImpl implements RoomService {
     public void outPutDataToExcel(String roomId){
         try {
             // 1. 使用File类打开一个文件；
-            String filePath =new StringBuffer(".").append(File.separator).append("excel").append(File.separator).append("data_").append(roomId).append(".xlsx").toString();
+            StringBuffer parentPath = new StringBuffer(".").append(File.separator).append("excel").append(File.separator);
+            File parentFile = new File(parentPath.toString());
+            if (!parentFile.exists()) {
+                parentFile.mkdir();
+            }
+            String filePath = parentPath.append("data_").append(roomId).append(".xlsx").toString();
+
             EasyExcel.write(filePath, DataModel.class).sheet("public-goods").doWrite(packageData(roomId));
         } catch (Exception e) {
             log.error("outPutDataToTxt ERROR",e);
