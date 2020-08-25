@@ -21,6 +21,8 @@ public class DataModel {
     private String gender;
     @ExcelProperty("存入金额")
     private BigDecimal investMoney;
+    @ExcelProperty("反应时间/秒")
+    private Integer timeScan;
     @ExcelProperty("积攒金额")
     private BigDecimal bounsMoney;
     @ExcelProperty("游戏结束时账户总金额")

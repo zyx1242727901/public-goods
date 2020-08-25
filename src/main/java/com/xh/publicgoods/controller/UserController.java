@@ -44,12 +44,13 @@ public class UserController {
     /**
      * 用户投资
      */
-    @RequestMapping("/{userName}/{round}/{roomId}/{amount}/userInvest")
+    @RequestMapping("/{userName}/{round}/{roomId}/{amount}/{timeScan}/userInvest")
     public JSONObject enterRoom(@PathVariable(value = "userName") String userName,
                                 @PathVariable(value = "round") Long round,
                                 @PathVariable(value = "roomId") String roomId,
-                                @PathVariable(value = "amount")String amount){
-        return userService.userInvest(userName, round, roomId, new BigDecimal(amount));
+                                @PathVariable(value = "amount")String amount,
+                                @PathVariable(value = "timeScan")Integer timeScan){
+        return userService.userInvest(userName, round, roomId, new BigDecimal(amount), timeScan);
     }
 
     /**

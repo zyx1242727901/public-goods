@@ -198,6 +198,7 @@ public class RoomServiceImpl implements RoomService {
                     temp.setUserName(investRecord.getUserName());
                     temp.setRound(Long.parseLong(entry.getKey()));
                     temp.setInvestMoney(investRecord.getAmount());
+                    temp.setTimeScan(investRecord.getTimeScan());
                     String bouns = redisHelper.hget(String.format(RedisConstants.USER_ACCOUNT_CHANG_RECORD,investRecord.getUserName()), entry.getKey());
                     temp.setBounsMoney(CommonConstants.USER_ROUND_INIT_MONEY.subtract(temp.getInvestMoney()).add(new BigDecimal(StringUtils.isEmpty(bouns) ? "0" : bouns)));
                     temp.setSumMoney(new BigDecimal(redisHelper.get(String.format(RedisConstants.USER_ACCOUNT_SUM_MONEY,temp.getUserName()))));

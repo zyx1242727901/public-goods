@@ -14,4 +14,5 @@ import java.math.BigDecimal;
 public class UserInvestRecordBean {
     private String userName;
     private BigDecimal amount;
+    private Integer timeScan;
 }

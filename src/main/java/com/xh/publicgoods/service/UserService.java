@@ -21,7 +21,7 @@ public interface UserService {
      * @param amount
      * @return
      */
-    JSONObject userInvest(String userName, Long round, String roomId, BigDecimal amount);
+    JSONObject userInvest(String userName, Long round, String roomId, BigDecimal amount, Integer timeScan);
     /**
      * 清算接口
      * @param round

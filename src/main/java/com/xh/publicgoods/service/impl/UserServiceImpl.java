@@ -59,8 +59,8 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public JSONObject userInvest(String userName, Long round, String roomId, BigDecimal amount) {
-        if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(roomId) || round == null || amount == null) {
+    public JSONObject userInvest(String userName, Long round, String roomId, BigDecimal amount, Integer timeScan) {
+        if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(roomId) || round == null || amount == null || timeScan == null) {
             return ResultEnum.returnResultJson(ResultEnum.E0000002);
         }
         if (amount.compareTo(CommonConstants.USER_ROUND_INIT_MONEY) > 0) {
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 
         JSONObject json = ResultEnum.returnResultJson(ResultEnum.SUCCESS);
 
-        UserInvestRecordBean currentRecord = new UserInvestRecordBean(userName,amount);
+        UserInvestRecordBean currentRecord = new UserInvestRecordBean(userName,amount,timeScan);
         String firstKey = String.format(RedisConstants.INVEST_OPERATE_RECORD, roomId);
         String secondKey = round.toString();
 
