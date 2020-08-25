@@ -5,13 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.math.BigDecimal;
 
 @Data
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInvestRecordBean {
+public class UserInvestVO {
     private String userName;
-    private BigDecimal amount;
+    private Boolean invested;
 }

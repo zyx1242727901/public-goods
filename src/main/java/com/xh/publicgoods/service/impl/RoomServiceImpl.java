@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xh.publicgoods.bean.HallInfoVO;
 import com.xh.publicgoods.bean.UserInvestRecordBean;
+import com.xh.publicgoods.bean.UserInvestVO;
 import com.xh.publicgoods.constants.CommonConstants;
 import com.xh.publicgoods.constants.RedisConstants;
 import com.xh.publicgoods.enums.ResultEnum;
@@ -105,7 +106,7 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public JSONObject finalizeGame(String roomId){
-        if (redisHelper.setnx(String.format(RedisConstants.ROOM_FINALIZE_FLAG, roomId), "true", RedisConstants.ONE_HOUR) == 1) {
+        if (redisHelper.setnx(String.format(RedisConstants.ROOM_FINALIZE_FLAG, roomId), "true", RedisConstants.FIVE_MINUTE) == 1) {
             //导出文件
             outPutDataToExcel(roomId);
             //关闭房间
@@ -135,12 +136,23 @@ public class RoomServiceImpl implements RoomService {
         Boolean flag = Long.parseLong(StringUtils.isEmpty(count) ? "0" : count) >= CommonConstants.ROOM_USER_MAX_COUNT;
         //查询已投人数
         String investRecord = redisHelper.hget(String.format(RedisConstants.INVEST_OPERATE_RECORD, roomId), round.toString());
-        List<UserInvestRecordBean> recordBeans = null;
+        List<UserInvestRecordBean> recordBeans = new ArrayList<>();
         if (!StringUtils.isEmpty(investRecord)) {
             recordBeans = JSONArray.parseArray(investRecord, UserInvestRecordBean.class);
         }
 
-        json.put("investUser", recordBeans);
+        Set<String> allMembers = redisHelper.smembers(String.format(RedisConstants.ROOM_USER_SET, roomId));
+        Set<String> investedSet = new HashSet<>();
+        recordBeans.parallelStream().forEach(userInvestRecordBean -> {investedSet.add(userInvestRecordBean.getUserName());});
+
+        List<UserInvestVO> investUserList = new LinkedList<>();
+        if (!CollectionUtils.isEmpty(allMembers)) {
+            allMembers.parallelStream().forEach(name -> {
+                UserInvestVO userInvestVO = new UserInvestVO(name, investedSet.contains(name));
+                investUserList.add(userInvestVO);
+            });
+        }
+        json.put("investUser", investUserList);
         json.put("fullFlag", flag);
         //返回房间账户总额
         if (flag) {
