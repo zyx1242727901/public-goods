@@ -34,7 +34,8 @@
             round:"",
             userName:"",
             roomId:"",
-            money:0
+            money:0,
+            timeScan:15
         },
         created:function (){
             this.getParam()
@@ -50,12 +51,14 @@
                 var roomid = this.roomId
                 var round = this.round
                 var money = this.money
+                var time = this.time
                 document.onkeydown=function (e) {
                   if (e.keyCode == 13) {
+                    var scan = 15-time
                     if (money<0 || money>100){
                       alert("请输入正确范围的钱数")
                     }else {
-                      axios.get("/api/goods/user/"+username+"/"+round+"/"+roomid+"/"+money+"/userInvest").then((res)=>{
+                      axios.get("/api/goods/user/"+username+"/"+round+"/"+roomid+"/"+money+"/"+scan+"/userInvest").then((res)=>{
                         if (res.data.code=='SUCCESS'){
                           clearInterval(this.box);
                           location.href = "wait2.html?userName="+username+"&roomId="+roomid+"&round="+round+"&money="+money
@@ -84,7 +87,7 @@
                 this.time--;
                 if(this.time == 0){
                     clearInterval(this.box);//清除计时器
-                    axios.get("/api/goods/user/"+this.userName+"/"+this.round+"/"+this.roomId+"/"+this.money+"/userInvest").then((res)=>{
+                    axios.get("/api/goods/user/"+this.userName+"/"+this.round+"/"+this.roomId+"/"+this.money+"/"+this.timeScan+"/userInvest").then((res)=>{
                         if (res.data.code=='SUCCESS'){
                           clearInterval(this.box);
                             location.href = "wait2.html?userName="+this.userName+"&roomId="+this.roomId+"&round="+this.round+"&money="+this.money
