@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>爱你呦</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="../js/axios-0.18.0.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/login.css"/>
+</head>
+<body>
+<div id="welcome">
+  <img src="../img/welcom.jpg">
+</div>
+</body>
+<script>
+  new Vue({
+    backend_url:"http://localhost:8888",
+    el:'#welcome',
+    data:{
+      userName:""
+    },
+    created:function(){
+      this.getUserName()
+    },
+    mounted:function(){
+      var username=this.userName
+      document.onkeydown=function (e) {
+        if (e.keyCode == 32) {
+          //先随机获取到页面的三个数
+          var pageIndex = Math.floor(Math.random()*(2+1-0)+0)
+          location.href="question"+(pageIndex+1)+".html?userName="+username+"&pageIndex1="+pageIndex+
+              "&pageTime=1"
+        }
+      };
+    },
+    methods:{
+      getUserName(){
+        var url = location.search //获取url中"?"符后的字串 ('?modFlag=business&role=1')
+        var theRequest = new Object()
+        if (url.indexOf('?') != -1) {
+          var str = url.substr(1) //substr()方法返回从参数值开始到结束的字符串；
+          var strs = str.split('&')
+          for (var i = 0; i < strs.length; i++) {
+            theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
+          }
+          this.userName = theRequest.userName
+        }
+      }
+    }
+  })
+
+</script>
+<style>
+  #welcome{
+    position: absolute;
+    top: 40%;
+    left:40%;
+    margin: -150px 0 0 -150px;
+    width: 300px;
+    height: 300px;
+  }
+</style>
+</html>

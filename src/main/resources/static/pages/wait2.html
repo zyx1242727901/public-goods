@@ -57,7 +57,6 @@
         }
       },
       testTrue(){
-        const sel = this
         axios.get("/api/goods/room/"+this.round+"/"+this.roomId+"/queryFullInvestFlag").then((res)=>{
           if (res.data.fullFlag == true) {
             this.roomAccountMoney = res.data.roomAccountMoney

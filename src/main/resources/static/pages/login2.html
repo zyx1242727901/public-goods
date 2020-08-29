@@ -8,12 +8,12 @@
 </head>
 <body>
 <div id="login">
-    <h1>Login</h1>
-        <span style="color:black">subject Number:</span>
-        <input type="text" required="required" placeholder="subjectNumber" name="userName" id="userName" required="required"/>
-        <span style="color:black">Age:</span>
-        <input type="number" required="required" placeholder="Age" name="age" id="age" required="required"/>
-        <span style="color:black">Gender2:</span>
+    <h1>登录</h1>
+        <span style="color:black">编号:</span>
+        <input type="text" required="required" placeholder="编号" name="userName" id="userName" required="required"/>
+        <span style="color:black">年龄:</span>
+        <input type="number" required="required" placeholder="年龄" name="age" id="age" required="required"/>
+        <span style="color:black">性别:</span>
         <select name="gender" id="gender">
             <option value="MALE" style="color:greenyellow">男</option>
             <option value="FE_MALE" style="color:greenyellow">女</option>
@@ -41,7 +41,7 @@
         .then((response) => {
           console.log(response);
           if(response.data.code == 'SUCCESS'){
-            location.href="room.html?userName="+response.data.userName;
+            location.href="welcom.html?userName="+response.data.userName;
           }else{
             alert(response.data.message)
           }
