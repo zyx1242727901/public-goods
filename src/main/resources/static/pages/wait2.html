@@ -8,15 +8,21 @@
 </head>
 <body>
     <div id="wait2">
-        <h1>{{userName}}请等待其他人投资完成..</h1><br>
-        <table>
+        <h1>请等待其他人投放结束..</h1>
+        <h3>(<img src="../img/dui.jpg" style="width: 30px">表示已投放完成,
+          <img src="../img/cha.jpg" style="width: 30px">表示未投放完成)</h3>
+        <table  border="1px solid #ccc"  cellspacing="0" cellpadding="0" style="">
             <tr>
-                <td>姓名</td>
-                <td>状态</td>
+                <td style="width: 150px">编号</td>
+                <td style="width: 150px">投放状态</td>
             </tr>
+          <tr>
+            <td style="width: 50px">{{userName}}</td>
+            <td style="width: 100px"><img src="../img/dui.jpg" style="width: 50px"></td>
+          </tr>
             <tr v-for='(item,index) in otherMans' >
-                <td>{{item.userName}}</td>
-                <td><img :src="item.status" style="width: 50px"></td>
+                <td style="width: 50px">{{item.userName}}</td>
+                <td style="width: 100px"><img :src="item.status" style="width: 50px"></td>
             </tr>
         </table>
     </div>
