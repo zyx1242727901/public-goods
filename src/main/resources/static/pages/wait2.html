@@ -8,7 +8,17 @@
 </head>
 <body>
     <div id="wait2">
-        <h1>请等待其他人投资完成..</h1>
+        <h1>{{userName}}请等待其他人投资完成..</h1><br>
+        <table>
+            <tr>
+                <td>姓名</td>
+                <td>状态</td>
+            </tr>
+            <tr v-for='(item,index) in otherMans' >
+                <td>{{item.userName}}</td>
+                <td><img :src="item.status" style="width: 50px"></td>
+            </tr>
+        </table>
     </div>
 </body>
 <style>
@@ -31,7 +41,11 @@
       roomId:"",
       money:0,
       box:"",
-      roomAccountMoney:""
+      roomAccountMoney:"",
+      otherMans:[{
+        userName:"",
+        status:""
+      }]
     },
     created:function(){
       this.getParam()
@@ -62,6 +76,23 @@
             this.roomAccountMoney = res.data.roomAccountMoney
             location.href="fk.html?userName="+this.userName+"&roomId="+this.roomId+"&round="
             +this.round+"&money="+this.money+"&roomAccountMoney="+this.roomAccountMoney
+          }else{
+            var username = this.userName
+            this.otherMans = []
+            for (let item of res.data.investUser){
+              if (item.userName != username){
+                var userInfo = {userName:"",status:""}
+                userInfo.userName=item.userName
+                if (item.invested == true){
+                  userInfo.status='../img/dui.jpg'
+                }else {
+                  userInfo.status='../img/cha.jpg'
+                }
+                this.otherMans.push(userInfo)
+              }
+            }
+
+            
           }
         })
       }

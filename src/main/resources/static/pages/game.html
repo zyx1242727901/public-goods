@@ -8,9 +8,11 @@
   <link rel="stylesheet" type="text/css" href="../css/login.css"/>
 </head>
 <body>
-    <div id="game1">
+    <div id="game1" style="top: 30%">
         <h1>第{{round}}回合:</h1>
-        <span>本轮你存入的金钱数:</span><input id="money" v-model="money" type="number">(请输入0-100任意大小的金钱数目)</br>
+        <span>本轮你放入的游戏币数(0-100):</span>
+        <input id="money" v-model="money" type="number">
+        输入完成后按<span style="color: red">"回车键"</span>跳转</br>
         <span id="span" class="a">{{time}}s</span>后默认为金额为0<br><br>
         <img src="../img/liucheng.png">
     </div>

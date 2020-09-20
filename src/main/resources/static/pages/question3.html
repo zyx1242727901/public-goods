@@ -8,11 +8,11 @@
 </head>
 <body>
 <div id="qusetion3" >
-  <h3>问题{{pageTime}}:假设你在公共账户里面放了90个游戏币，而其他三个人放入游戏币的数量分别为0、4、6，那你可以从公共账户中得到额外的游戏币吗？这一轮游戏结束后你一共可以将多少游戏币存到你的个人账户中呢？</h3></br>
-  <input type="radio" v-model="checkValue" value="A"/>A.能，110
-  <input type="radio" v-model="checkValue" value="B"/>B.不能，10
-  <input type="radio" v-model="checkValue" value="C"/>C.不能，100
-  <input type="radio" v-model="checkValue" value="D"/>D.不能，50<br><br>
+  <h3>问题{{pageTime}}:假设你在公共账户里面放了90个游戏币，而其他三个人放入游戏币的数量分别为0、4、6，这一轮游戏结束后你一共可以将多少游戏币存到你的个人账户中呢？</h3></br>
+  <input type="radio" v-model="checkValue" value="A"/>A.10
+  <input type="radio" v-model="checkValue" value="B"/>B.60
+  <input type="radio" v-model="checkValue" value="C"/>C.100
+  <input type="radio" v-model="checkValue" value="D"/>D.110<br><br>
   <input type="button" value="提交答案" @click="checkAnswer()" /><br><br><br><br>
   <img src="../img/liucheng.png">
 </div>
@@ -40,7 +40,7 @@
         }
       },
   checkAnswer(){
-        if (this.checkValue == 'B'){
+        if (this.checkValue == 'A'){
           if(this.pageTime == 3){
             alert("恭喜你全部答对,马上进入真正的游戏吧!!")
           }else {
