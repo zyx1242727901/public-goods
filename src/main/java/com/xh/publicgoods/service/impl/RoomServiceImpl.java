@@ -23,6 +23,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -172,7 +173,7 @@ public class RoomServiceImpl implements RoomService {
             if (!parentFile.exists()) {
                 parentFile.mkdir();
             }
-            String filePath = parentPath.append("data_").append(roomId).append(".xlsx").toString();
+            String filePath = parentPath.append("data_").append(getYyyyMMddHHmmss()).append("_").append(roomId).append(".xlsx").toString();
 
             EasyExcel.write(filePath, DataModel.class).sheet("public-goods").doWrite(packageData(roomId));
         } catch (Exception e) {
@@ -211,7 +212,15 @@ public class RoomServiceImpl implements RoomService {
         return list;
     }
 
+
+    public static String getYyyyMMddHHmmss() {
+        return new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+    }
+
+
     public static void main(String[] args) {
-        new RoomServiceImpl().outPutDataToExcel("321");
+        System.out.println(
+            new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+
     }
 }
