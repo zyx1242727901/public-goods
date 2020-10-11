@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
-  <title>爱你呦</title>
+  <title>游戏中</title>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="../js/axios-0.18.0.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/login.css"/>
@@ -10,7 +10,7 @@
 <body>
     <div id="game1" style="top: 30%">
         <h1>第{{round}}回合:</h1>
-        <span>本轮你放入的游戏币数(0-100):</span>
+        <span>本轮你放入的游戏币数(0-100之间的整数):</span>
         <input id="money" v-model="money" type="number">
         输入完成后按<span style="color: red">"回车键"</span>跳转</br></br>
         <span id="span" style="font-size:10px" class="a">({{time}}s 后默认为金额为0)</span><br><br>
