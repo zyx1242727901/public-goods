@@ -65,4 +65,16 @@ public class RoomController {
                                           @PathVariable("round") Long round){
         return roomService.queryFullInvestFlag(roomId, round);
     }
+
+    /**
+     * 销毁房间
+     * @param roomId
+     * @return
+     */
+    @RequestMapping("/{roomId}/destroyRoom")
+    public JSONObject destroyRoom(@PathVariable("roomId") String roomId){
+        return roomService.destroyRoom(roomId);
+    }
+
+
 }
