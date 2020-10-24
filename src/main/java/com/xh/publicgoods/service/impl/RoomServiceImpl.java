@@ -25,6 +25,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 @Slf4j
@@ -39,7 +40,7 @@ public class RoomServiceImpl implements RoomService {
     public JSONObject getHallInfo() {
         JSONObject json = ResultEnum.returnResultJson(ResultEnum.SUCCESS);
         List<HallInfoVO> list = new ArrayList<>();
-
+        final AtomicBoolean isFull = new AtomicBoolean(true);
         //遍历房间set
         Set<String> smembers = redisHelper.smembers(RedisConstants.ROOM_ID_SET);
 
@@ -47,11 +48,15 @@ public class RoomServiceImpl implements RoomService {
             smembers.stream().forEach(roomId->{
                 //获取每个房间的人员数
                 Long userCount = redisHelper.scard(String.format(RedisConstants.ROOM_USER_SET, roomId));
+                if(userCount < CommonConstants.ROOM_USER_MAX_COUNT) {
+                    isFull.set(false);
+                }
                 list.add(new HallInfoVO(roomId, userCount));
             });
         }
 
         json.put("resMap", list);
+        json.put("isFull", isFull.get());
         return json;
     }
 
