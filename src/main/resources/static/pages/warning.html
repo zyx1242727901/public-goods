@@ -3,32 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <title>游戏中</title>
-  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-  <script src="../js/axios-0.18.0.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/login.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 </head>
 <body>
-<div id="welcome">
-  <img src="../img/welcom.jpg" style="height: 100%">
+<div id="rule" style="left: 35%">
+  <h1>游戏开始,请认真阅读规则:</h1></br>
+  <img src="../img/writingRule.jpg" style="width:170%">
 </div>
 </body>
 <script>
   new Vue({
-    backend_url:"http://localhost:8888",
-    el:'#welcome',
+    el: "#rule",
     data:{
       userName:"",
       versionType:""
     },
-    created:function(){
-      this.getUserName()
-    },
     mounted:function(){
+      this.getParam()
       var username=this.userName
-      var versionType=this.versionType
+      var versionType = this.versionType
       document.onkeydown=function (e) {
         if (e.keyCode == 32) {
-          //先随机获取到页面的三个数
           var pageIndex = Math.floor(Math.random()*(2+1-0)+0)
           location.href="question"+(pageIndex+1)+".html?userName="+username+"&pageIndex1="+pageIndex+
               "&pageTime=1&versionType="+versionType
@@ -36,7 +32,7 @@
       };
     },
     methods:{
-      getUserName(){
+      getParam(){
         var url = location.search //获取url中"?"符后的字串 ('?modFlag=business&role=1')
         var theRequest = new Object()
         if (url.indexOf('?') != -1) {
@@ -47,21 +43,20 @@
           }
           this.userName = theRequest.userName
           this.versionType = theRequest.versionType
-
         }
       }
+
     }
   })
-
 </script>
 <style>
-  #welcome{
+  #rule{
     position: absolute;
-    top: 40%;
+    top: 30%;
     left:40%;
     margin: -150px 0 0 -150px;
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
   }
 </style>
 </html>

@@ -17,7 +17,15 @@
       <h2>游戏大厅</h2>
     </tr>
     <tr>
-      <img src="../img/tuli.png" style="width: 500px">
+      <div id="imgShow">
+        <img src="../img/tuli.png" style="width: 500px">
+      </div>
+      <div id="destroyShow">
+        输入要关闭的房间号码:
+      <input type="text" id="destroyRoom" name="destroyRoom" style="height: 5px"/>
+      <button @click="destroyRoom()">关闭</button><br>
+        <h3 style="color: red">此为管理员账号请不要加入任何房间</h3>
+      </div>
     </tr>
     <tr>
       <template v-for='(item,index) in imgs'>
@@ -70,7 +78,8 @@
           manNum:0}
       ],
       userName:"",
-      timer:""
+      timer:"",
+      isFull:true
     },
     created:function () {
       this.getUserName();
@@ -81,19 +90,35 @@
       clearInterval(this.timer);
     },
     methods:{
-      creatRoom(){
-        axios.get("/api/goods/room/createRoom").then((response)=>{
-          if (response.data.code == 'SUCCESS') {
-            //创建成功加入房间
-            var roomid = response.data.roomId
-            axios.get("/api/goods/user/"+this.userName+"/"+roomid+"/enterRoom").then((res) =>{
-              if (response.data.code == 'SUCCESS'){
-                location.href="wait.html?roomId="+roomid+"&userName="+this.userName
-              }
-            })
-
+      destroyRoom(){
+        var destroyRoomId = $("#destroyRoom").val();
+        axios.get("/room/"+destroyRoomId+"/destroyRoom").then((response)=>{
+          if (response.code == 'SUCCESS') {
+            alert("关闭房间成功")
+          }else {
+            alert("关闭房间失败")
           }
-        })
+
+        });
+      },
+      creatRoom(){
+        if (this.isFull == true){
+          axios.get("/api/goods/room/createRoom").then((response)=>{
+            if (response.data.code == 'SUCCESS') {
+              //创建成功加入房间
+              var roomid = response.data.roomId
+              axios.get("/api/goods/user/"+this.userName+"/"+roomid+"/enterRoom").then((res) =>{
+                if (response.data.code == 'SUCCESS'){
+                  location.href="wait.html?roomId="+roomid+"&userName="+this.userName
+                }
+              })
+
+            }
+          });
+
+        } else {
+          alert("请优先加入有位置的房间!")
+        }
       },
       joinRoom(data){
         axios.get("/api/goods/user/"+this.userName+"/"+data+"/enterRoom").then((response) =>{
@@ -112,18 +137,26 @@
             theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
           }
           this.userName = theRequest.userName
+          let u= decodeURI(this.userName)
+          if (u == '浓缩豆浆'){
+            document.getElementById("imgShow").style.display="none";
+          } else {
+            document.getElementById("destroyShow").style.display="none";
+
+          }
         }
       },
       init(){
-        axios.get("/api/goods/room/getHallInfo").then((response) => {
-          console.log(response.data);
-         if(response.data.code == 'SUCCESS'){
-           this.imgs = []
-           for (let item of response.data.resMap) {
-             var img = {url:"",roomId:"",manNum:0}
-             if (item.manNum == 0){
-               img.url = '../img/isNoLogin.png'
-             }else if(item.manNum == 1){
+          axios.get("/api/goods/room/getHallInfo").then((response) => {
+            console.log(response.data);
+            this.isFull = response.isFull
+            if(response.data.code == 'SUCCESS'){
+              this.imgs = []
+              for (let item of response.data.resMap) {
+                var img = {url:"",roomId:"",manNum:0}
+                if (item.manNum == 0){
+                  img.url = '../img/isNoLogin.png'
+                }else if(item.manNum == 1){
                   img.url = '../img/haveOneMan.png'
                 }else if (item.manNum == 2) {
                   img.url = '../img/haveTwoMan.png'
@@ -132,15 +165,14 @@
                 }else {
                   img.url = '../img/full.png'
                 }
-             img.roomId = item.roomNum
-             img.manNum=item.manNum
-             if (img.url != '' && img.roomId != ''){
-               this.imgs.push(img)
-             }
-           }
-         }
-      });
-        console.log(11)
+                img.roomId = item.roomNum
+                img.manNum=item.manNum
+                if (img.url != '' && img.roomId != ''){
+                  this.imgs.push(img)
+                }
+              }
+            }
+          });
       }
 
     }

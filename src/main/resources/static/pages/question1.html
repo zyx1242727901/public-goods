@@ -14,7 +14,7 @@
     <input type="radio" v-model="checkValue" value="C"/>C.75
     <input type="radio" v-model="checkValue" value="D"/>D.100<br><br>
     <input type="button" value="提交答案" @click="checkAnswer()" /><br><br><br><br>
-    <img src="../img/liucheng.png">
+    <img :src="imgUrl">
 
   </div>
 </body>
@@ -23,8 +23,10 @@
     backend_url:"http://localhost:8888",
     el:'#qusetion1',
     data:{
+      imgUrl:"",
       checkValue:"",
       userName:"",
+      versionType:"",
       pageTime:0,
       pageIndex1:0,
       pageIndex2:0,
@@ -48,21 +50,23 @@
             alert("回答正确请继续作答")
           }
           var username = this.userName
+          var versionType = this.versionType
           if (this.pageTime ==1){
             //第一个页面
             this.remove(this.pageIndex1)
             this.pageIndex2 = this.pageIndexs[Math.floor(Math.random()*(1+1-0)+0)]
             location.href="question"+(this.pageIndex2+1)+".html?userName="+username+"&pageIndex1="+this.pageIndex1+"&pageIndex2="+this.pageIndex2+
-                "&pageTime=2"
+                "&pageTime=2&versionType="+versionType
           } else if (this.pageTime ==2) {
             //第二个页面
             this.remove(this.pageIndex1)
             this.remove(this.pageIndex2)
             this.pageIndex3 = this.pageIndexs[0]
-            location.href="question"+(this.pageIndex3+1)+".html?userName="+username+ "&pageTime=3"
+            location.href="question"+(this.pageIndex3+1)+".html?userName="+username+ "&pageTime=3&versionType="+
+                versionType
           }else {
             //第三个页面
-            location.href="room.html?userName="+username
+            location.href="room.html?userName="+username+"&versionType="+versionType
           }
 
         } else {
@@ -79,10 +83,16 @@
             theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
           }
           this.userName = theRequest.userName
+          this.versionType = theRequest.versionType
           this.pageTime = parseInt(theRequest.pageTime)
           this.pageIndex1 = parseInt(theRequest.pageIndex1)
           if (this.pageTime ==2){
             this.pageIndex2 = parseInt(theRequest.pageIndex2)
+          }
+          if (this.versionType == 'writing'){
+            this.imgUrl = '../img/writingLiucheng.jpg'
+          } else {
+            this.imgUrl = '../img/liucheng.png'
           }
         }
       }
