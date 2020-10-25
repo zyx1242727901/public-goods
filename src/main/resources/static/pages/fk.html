@@ -34,7 +34,8 @@
           roomId:"",
           money:0,
           box:"",
-          roomAccountMoney:""
+          roomAccountMoney:"",
+          versionType:""
         },
       created:function(){
           this.getParam()
@@ -46,7 +47,7 @@
       methods:{
           jumPages(){
             location.href="fk2.html?userName="+this.userName+"&roomId="+this.roomId+"&round="+
-                this.round+"&money="+this.money
+                this.round+"&money="+this.money+"&versionType="+this.versionType
           },
         getParam(){
           var url = location.search //获取url中"?"符后的字串 ('?modFlag=business&role=1')
@@ -62,13 +63,14 @@
             this.round = theRequest.round
             this.money=theRequest.money
             this.roomAccountMoney=theRequest.roomAccountMoney
+            this.versionType = theRequest.versionType
           }
         },
         timeOut(){
           this.time--;
           if(this.time == 0){
             location.href="fk2.html?userName="+this.userName+"&roomId="+this.roomId+"&round="+
-                this.round+"&money="+this.money
+                this.round+"&money="+this.money+"&versionType="+this.versionType
           }
         }
       }

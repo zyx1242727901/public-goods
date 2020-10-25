@@ -29,7 +29,8 @@
     data:{
       roomId:"",
       timer: "",
-        userName:""
+      userName:"",
+      versionType:""
     },
       mounted() {
         this.getRoomId()
@@ -41,9 +42,10 @@
         methods:{
           //轮询游戏是否开始
           getGameInfo(){
+            var versionType = this.versionType
             axios.get("/api/goods/room/"+this.roomId+"/queryStartFlag").then((response)=>{
               if(response.data.startFlag == true) {
-                location.href="rule.html?roomId="+this.roomId+"&userName="+this.userName
+                location.href="rule.html?roomId="+this.roomId+"&userName="+this.userName+"&versionType="+versionType
               }
             })
           },
@@ -57,7 +59,8 @@
                 theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
               }
               this.roomId = theRequest.roomId
-                this.userName = theRequest.userName
+              this.userName = theRequest.userName
+              this.versionType = theRequest.versionType
           }
         }
     }})

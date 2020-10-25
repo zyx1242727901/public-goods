@@ -44,6 +44,7 @@
     data:{
       round:"",
       userName:"",
+      versionType:"",
       roomId:"",
       money:0,
       box:"",
@@ -74,14 +75,17 @@
           this.roomId = theRequest.roomId
           this.round = theRequest.round
           this.money=theRequest.money
+          this.versionType = theRequest.versionType
         }
       },
       testTrue(){
+        var versionType = this.versionType
         axios.get("/api/goods/room/"+this.round+"/"+this.roomId+"/queryFullInvestFlag").then((res)=>{
           if (res.data.fullFlag == true) {
             this.roomAccountMoney = res.data.roomAccountMoney
             location.href="fk.html?userName="+this.userName+"&roomId="+this.roomId+"&round="
             +this.round+"&money="+this.money+"&roomAccountMoney="+this.roomAccountMoney
+                +"&versionType="+versionType
           }else{
             var username = this.userName
             this.otherMans = []

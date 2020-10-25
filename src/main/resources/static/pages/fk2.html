@@ -32,6 +32,7 @@
     data:{
       round:0,
       userName:"",
+      versionType:"",
       roomId:"",
       bouns:0,//分红金额
       investAmt:0,//投资金额
@@ -59,6 +60,7 @@
         if (this.round<12){
           var round = parseInt(this.round)+1
           location.href="game.html?userName="+this.userName+"&roomId="+this.roomId+"&round="+round
+              +"&versionType="+this.versionType
         }else {
           axios.get("/api/goods/room/"+this.roomId+"/finalizeGame")
           .then((res)=>{
@@ -95,6 +97,7 @@
           this.userName = theRequest.userName
           this.roomId = theRequest.roomId
           this.round = theRequest.round
+          this.versionType = theRequest.versionType
         }
       }
 
