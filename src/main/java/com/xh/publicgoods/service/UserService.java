@@ -1,6 +1,7 @@
 package com.xh.publicgoods.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xh.publicgoods.bean.MoodDTO;
 import com.xh.publicgoods.enums.GenderEnum;
 
 import java.math.BigDecimal;
@@ -31,4 +32,6 @@ public interface UserService {
     JSONObject liquidation(Long round, String roomId, String userName) throws InterruptedException;
 
     JSONObject login(String userName, Integer age, GenderEnum gender);
+
+    JSONObject enterMood(String roomId, String userName, MoodDTO moodDTO);
 }

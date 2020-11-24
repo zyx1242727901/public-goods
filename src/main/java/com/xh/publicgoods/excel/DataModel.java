@@ -27,4 +27,16 @@ public class DataModel {
     private BigDecimal bounsMoney;
     @ExcelProperty("游戏结束时账户总金额")
     private BigDecimal sumMoney;
+    @ExcelProperty("生气")
+    private int shengqi;
+    @ExcelProperty("难过")
+    private int nanguo;
+    @ExcelProperty("敬畏")
+    private int jingwei;
+    @ExcelProperty("厌恶")
+    private int yanwu;
+    @ExcelProperty("开心")
+    private int kaixin;
+    @ExcelProperty("害怕")
+    private int haipa;
 }

@@ -1,12 +1,13 @@
 package com.xh.publicgoods.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xh.publicgoods.bean.MoodDTO;
 import com.xh.publicgoods.enums.GenderEnum;
-import com.xh.publicgoods.enums.ResultEnum;
 import com.xh.publicgoods.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,6 +62,16 @@ public class UserController {
                                 @PathVariable(value = "round") Long round,
                                 @PathVariable(value = "roomId")String roomId) throws InterruptedException {
         return userService.liquidation(round, roomId, userName);
+    }
+
+    /**
+     * 录入情绪
+     */
+    @RequestMapping("/{userName}/{roomId}/enterMood")
+    public JSONObject enterMood(@PathVariable(value = "userName") String userName,
+                                @PathVariable(value = "roomId")String roomId,
+                                @RequestBody MoodDTO moodDTO) throws InterruptedException {
+        return userService.enterMood( roomId, userName,moodDTO);
     }
 
 

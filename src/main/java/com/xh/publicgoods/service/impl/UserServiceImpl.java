@@ -2,6 +2,7 @@ package com.xh.publicgoods.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.xh.publicgoods.bean.MoodDTO;
 import com.xh.publicgoods.bean.UserInfo;
 import com.xh.publicgoods.bean.UserInvestRecordBean;
 import com.xh.publicgoods.constants.CommonConstants;
@@ -242,5 +243,23 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
+    /**
+     * 录入情绪
+     * @param roomId
+     * @param userName
+     * @param moodDTO
+     * @return
+     */
+    @Override
+    public JSONObject enterMood(String roomId, String userName, MoodDTO moodDTO) {
+        if (StringUtils.isEmpty(roomId) || StringUtils.isEmpty(userName) || moodDTO == null) {
+            return ResultEnum.returnResultJson(ResultEnum.E0000002);
+        }
+        String key = String.format(RedisConstants.USER_MOOD_STRING, userName, roomId);
+        String mood = redisHelper.get(key);
+        if (StringUtils.isEmpty(mood)) {
+            redisHelper.setex(key, JSONObject.toJSONString(moodDTO), RedisConstants.ONE_HOUR);
+        }
+        return ResultEnum.returnResultJson(ResultEnum.SUCCESS);
+    }
 }

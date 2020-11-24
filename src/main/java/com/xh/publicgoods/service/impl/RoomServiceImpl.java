@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xh.publicgoods.bean.HallInfoVO;
+import com.xh.publicgoods.bean.MoodDTO;
 import com.xh.publicgoods.bean.UserInvestRecordBean;
 import com.xh.publicgoods.bean.UserInvestVO;
 import com.xh.publicgoods.constants.CommonConstants;
@@ -209,6 +210,16 @@ public class RoomServiceImpl implements RoomService {
                     temp.setBounsMoney(CommonConstants.USER_ROUND_INIT_MONEY.subtract(temp.getInvestMoney()).add(new BigDecimal(StringUtils.isEmpty(bouns) ? "0" : bouns)));
                     temp.setSumMoney(new BigDecimal(redisHelper.get(String.format(RedisConstants.USER_ACCOUNT_SUM_MONEY,temp.getUserName()))));
                     temp.setGender(JSON.parseObject(redisHelper.hget(RedisConstants.USER_INFO_HASH,temp.getUserName())).getString("gender"));
+                    if ("1".equals(entry.getKey())) {
+                        String moodInfo = redisHelper.get(String.format(RedisConstants.USER_MOOD_STRING, investRecord.getUserName(), roomId));
+                        MoodDTO moodDTO = JSONObject.parseObject(moodInfo, MoodDTO.class);
+                        temp.setShengqi(moodDTO.getShengqi());
+                        temp.setYanwu(moodDTO.getYanwu());
+                        temp.setKaixin(moodDTO.getKaixin());
+                        temp.setHaipa(moodDTO.getHaipa());
+                        temp.setNanguo(moodDTO.getNanguo());
+                        temp.setJingwei(moodDTO.getJingwei());
+                    }
                     list.add(temp);
                 });
             });

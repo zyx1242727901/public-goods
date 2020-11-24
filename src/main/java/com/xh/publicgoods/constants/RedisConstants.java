@@ -42,7 +42,10 @@ public class RedisConstants {
      * 用户注册信息集合
      */
     public static final String USER_INFO_HASH = "user_info_hash";
-
+    /**
+     * 用户情绪  username_房间号
+     */
+    public static final String USER_MOOD_STRING = "user_mood_%s_%s";
 
 
     //===========================  房间内游戏动态相关  ====================================
