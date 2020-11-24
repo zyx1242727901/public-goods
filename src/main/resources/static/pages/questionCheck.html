@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link rel="stylesheet" type="text/css" href="../css/login.css"/>
+</head>
+<body>
+<div id="login" style="width: 90%;height: 90%; left: 40%">
+    <h3>请根据你此时此刻的状态,评估你体验到的一下情绪的强度:</h3>
+    <table  style="border:1px solid black">
+        <tr>
+            <td style="width: 10%"></td>
+            <td align="center">完全没有</td>
+            <td>稍微有点</td>
+            <td>中等偏弱</td>
+            <td>中等强度</td>
+            <td>中等偏强</td>
+            <td>有点强烈</td>
+            <td>非常强烈</td>
+        </tr>
+        <tr>
+            <td>生气</td>
+            <td align="center" id="shengqi1">
+                <label @click="changeBackColor('shengqi',1)">1</label>
+            </td>
+            <td align="center" id="shengqi2">
+                <label @click="changeBackColor('shengqi',2)">2</label>
+            </td>
+            <td align="center" id="shengqi3">
+                <label @click="changeBackColor('shengqi',3)">3</label>
+            </td>
+            <td align="center" id="shengqi4">
+                <label @click="changeBackColor('shengqi',4)">4</label>
+            </td>
+            <td align="center" id="shengqi5">
+                <label @click="changeBackColor('shengqi',5)">5</label>
+            </td>
+            <td align="center" id="shengqi6">
+                <label @click="changeBackColor('shengqi',6)">6</label>
+            </td>
+            <td align="center" id="shengqi7">
+                <label @click="changeBackColor('shengqi',7)">7</label>
+            </td>
+        </tr>
+        <tr>
+            <td>难过</td>
+            <td align="center" id="nanguo1">
+                <label @click="changeBackColor('nanguo',1)">1</label>
+            </td>
+            <td align="center" id="nanguo2">
+                <label @click="changeBackColor('nanguo',2)">2</label>
+            </td>
+            <td align="center" id="nanguo3">
+                <label @click="changeBackColor('nanguo',3)">3</label>
+            </td>
+            <td align="center" id="nanguo4">
+                <label @click="changeBackColor('nanguo',4)">4</label>
+            </td>
+            <td align="center" id="nanguo5">
+                <label @click="changeBackColor('nanguo',5)">5</label>
+            </td>
+            <td align="center" id="nanguo6">
+                <label @click="changeBackColor('nanguo',6)">6</label>
+            </td>
+            <td align="center" id="nanguo7">
+                <label @click="changeBackColor('nanguo',7)">7</label>
+            </td>
+        </tr>
+        <tr>
+            <td>敬畏</td>
+            <td align="center" id="jingwei1">
+                <label @click="changeBackColor('jingwei',1)">1</label>
+            </td>
+            <td align="center" id="jingwei2">
+                <label @click="changeBackColor('jingwei',2)">2</label>
+            </td>
+            <td align="center" id="jingwei3">
+                <label @click="changeBackColor('jingwei',3)">3</label>
+            </td>
+            <td align="center" id="jingwei4">
+                <label @click="changeBackColor('jingwei',4)">4</label>
+            </td>
+            <td align="center" id="jingwei5">
+                <label @click="changeBackColor('jingwei',5)">5</label>
+            </td>
+            <td align="center" id="jingwei6">
+                <label @click="changeBackColor('jingwei',6)">6</label>
+            </td>
+            <td align="center" id="jingwei7">
+                <label @click="changeBackColor('jingwei',7)">7</label>
+            </td>
+        </tr>
+        <tr>
+            <td>厌恶</td>
+            <td align="center" id="yanwu1">
+                <label @click="changeBackColor('yanwu',1)">1</label>
+            </td>
+            <td align="center" id="yanwu2">
+                <label @click="changeBackColor('yanwu',2)">2</label>
+            </td>
+            <td align="center" id="yanwu3">
+                <label @click="changeBackColor('yanwu',3)">3</label>
+            </td>
+            <td align="center" id="yanwu4">
+                <label @click="changeBackColor('yanwu',4)">4</label>
+            </td>
+            <td align="center" id="yanwu5">
+                <label @click="changeBackColor('yanwu',5)">5</label>
+            </td>
+            <td align="center" id="yanwu6">
+                <label @click="changeBackColor('yanwu',6)">6</label>
+            </td>
+            <td align="center" id="yanwu7">
+                <label @click="changeBackColor('yanwu',7)">7</label>
+            </td>
+        </tr>
+        <tr>
+            <td>开心</td>
+            <td align="center" id="kaixin1">
+                <label @click="changeBackColor('kaixin',1)">1</label>
+            </td>
+            <td align="center" id="kaixin2">
+                <label @click="changeBackColor('kaixin',2)">2</label>
+            </td>
+            <td align="center" id="kaixin3">
+                <label @click="changeBackColor('kaixin',3)">3</label>
+            </td>
+            <td align="center" id="kaixin4">
+                <label @click="changeBackColor('kaixin',4)">4</label>
+            </td>
+            <td align="center" id="kaixin5">
+                <label @click="changeBackColor('kaixin',5)">5</label>
+            </td>
+            <td align="center" id="kaixin6">
+                <label @click="changeBackColor('kaixin',6)">6</label>
+            </td>
+            <td align="center" id="kaixin7">
+                <label @click="changeBackColor('kaixin',7)">7</label>
+            </td>
+        </tr>
+        <tr>
+            <td>害怕</td>
+            <td align="center" id="haipa1">
+                <label @click="changeBackColor('haipa',1)">1</label>
+            </td>
+            <td align="center" id="haipa2">
+                <label @click="changeBackColor('haipa',2)">2</label>
+            </td>
+            <td align="center" id="haipa3">
+                <label @click="changeBackColor('haipa',3)">3</label>
+            </td>
+            <td align="center" id="haipa4">
+                <label @click="changeBackColor('haipa',4)">4</label>
+            </td>
+            <td align="center" id="haipa5">
+                <label @click="changeBackColor('haipa',5)">5</label>
+            </td>
+            <td align="center" id="haipa6">
+                <label @click="changeBackColor('haipa',6)">6</label>
+            </td>
+            <td align="center" id="haipa7">
+                <label @click="changeBackColor('haipa',7)">7</label>
+            </td>
+        </tr>
+    </table >
+    <br>
+    <button @click="gotoNext()">完成</button>
+</div>
+</body>
+<script type="text/javascript">
+    new Vue({
+        backend_url:"http://localhost:8888",
+        el: "#login",
+        data:{
+            color1:"white",
+            moodInfo:{
+                shengqi:"",
+                nanguo:"",
+                jingwei:"",
+                yanwu:"",
+                kaixin:"",
+                haipa:""
+            }
+        },
+        methods:{
+            gotoNext(){
+                if (this.moodInfo.shengqi == '' || this.moodInfo.nanguo == '' || this.moodInfo.jingwei == ''
+                    || this.moodInfo.yanwu == '' || this.moodInfo.kaixin == '' || this.moodInfo.haipa == ''){
+                    alert("请全部选择完毕")
+
+                }
+            },
+            changeBackColor(type,data){
+                var newId = type+data
+                //先清空
+                document.getElementById(type+"1").style.backgroundColor = this.color1
+                document.getElementById(type+"2").style.backgroundColor = this.color1
+                document.getElementById(type+"3").style.backgroundColor = this.color1
+                document.getElementById(type+"4").style.backgroundColor = this.color1
+                document.getElementById(type+"5").style.backgroundColor = this.color1
+                document.getElementById(type+"6").style.backgroundColor = this.color1
+                document.getElementById(type+"7").style.backgroundColor = this.color1
+                document.getElementById(newId).style.backgroundColor = "red"
+                if (type == "shengqi"){
+                    this.moodInfo.shengqi = data;
+                }else if (type == "nanguo"){
+                    this.moodInfo.nanguo = data;
+                }else if (type == "kaixin"){
+                    this.moodInfo.kaixin = data;
+                }else if (type == "haipa"){
+                    this.moodInfo.haipa = data;
+                }else if (type == "jingwei"){
+                    this.moodInfo.jingwei = data;
+                }else if (type == "yanwu"){
+                    this.moodInfo.yanwu = data;
+                }
+
+            },
+            getParam(){
+                var url = location.search //获取url中"?"符后的字串 ('?modFlag=business&role=1')
+                var theRequest = new Object()
+                if (url.indexOf('?') != -1) {
+                    var str = url.substr(1) //substr()方法返回从参数值开始到结束的字符串；
+                    var strs = str.split('&')
+                    for (var i = 0; i < strs.length; i++) {
+                        theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
+                    }
+                    this.userName = theRequest.userName
+                    this.roomId = theRequest.roomId
+                    this.round = theRequest.round
+                    this.versionType = theRequest.versionType
+                }
+            }
+
+        }
+    })
+</script>
+</html>
