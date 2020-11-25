@@ -194,7 +194,7 @@ public class RoomServiceImpl implements RoomService {
      * @return
      */
     private List<DataModel> packageData(String roomId){
-        List<DataModel> list = new ArrayList<>();
+        LinkedList<DataModel> list = new LinkedList<>();
         //获取用户集合
         Map<String, String> record = redisHelper.hmgetAll(String.format(RedisConstants.INVEST_OPERATE_RECORD, roomId));
         if (!CollectionUtils.isEmpty(record)) {
@@ -212,15 +212,17 @@ public class RoomServiceImpl implements RoomService {
                     temp.setGender(JSON.parseObject(redisHelper.hget(RedisConstants.USER_INFO_HASH,temp.getUserName())).getString("gender"));
                     if ("1".equals(entry.getKey())) {
                         String moodInfo = redisHelper.get(String.format(RedisConstants.USER_MOOD_STRING, investRecord.getUserName(), roomId));
-                        MoodDTO moodDTO = JSONObject.parseObject(moodInfo, MoodDTO.class);
-                        temp.setShengqi(moodDTO.getShengqi());
-                        temp.setYanwu(moodDTO.getYanwu());
-                        temp.setKaixin(moodDTO.getKaixin());
-                        temp.setHaipa(moodDTO.getHaipa());
-                        temp.setNanguo(moodDTO.getNanguo());
-                        temp.setJingwei(moodDTO.getJingwei());
+                        if(!StringUtils.isEmpty(moodInfo)){
+                            MoodDTO moodDTO = JSONObject.parseObject(moodInfo, MoodDTO.class);
+                            temp.setShengqi(moodDTO.getShengqi());
+                            temp.setYanwu(moodDTO.getYanwu());
+                            temp.setKaixin(moodDTO.getKaixin());
+                            temp.setHaipa(moodDTO.getHaipa());
+                            temp.setNanguo(moodDTO.getNanguo());
+                            temp.setJingwei(moodDTO.getJingwei());
+                        }
                     }
-                    list.add(temp);
+                    list.addFirst(temp);
                 });
             });
         }

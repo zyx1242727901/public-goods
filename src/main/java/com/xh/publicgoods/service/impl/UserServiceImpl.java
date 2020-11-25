@@ -258,7 +258,7 @@ public class UserServiceImpl implements UserService {
         String key = String.format(RedisConstants.USER_MOOD_STRING, userName, roomId);
         String mood = redisHelper.get(key);
         if (StringUtils.isEmpty(mood)) {
-            redisHelper.setex(key, JSONObject.toJSONString(moodDTO), RedisConstants.ONE_HOUR);
+            redisHelper.setex(key, JSONObject.toJSONString(moodDTO), RedisConstants.ONE_DAY);
         }
         return ResultEnum.returnResultJson(ResultEnum.SUCCESS);
     }

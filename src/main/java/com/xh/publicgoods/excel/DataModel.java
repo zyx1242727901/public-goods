@@ -28,15 +28,15 @@ public class DataModel {
     @ExcelProperty("游戏结束时账户总金额")
     private BigDecimal sumMoney;
     @ExcelProperty("生气")
-    private int shengqi;
+    private Integer shengqi;
     @ExcelProperty("难过")
-    private int nanguo;
+    private Integer nanguo;
     @ExcelProperty("敬畏")
-    private int jingwei;
+    private Integer jingwei;
     @ExcelProperty("厌恶")
-    private int yanwu;
+    private Integer yanwu;
     @ExcelProperty("开心")
-    private int kaixin;
+    private Integer kaixin;
     @ExcelProperty("害怕")
-    private int haipa;
+    private Integer haipa;
 }
