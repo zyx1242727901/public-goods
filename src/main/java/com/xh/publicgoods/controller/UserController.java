@@ -69,9 +69,8 @@ public class UserController {
      */
     @RequestMapping("/{userName}/enterMood")
     public JSONObject enterMood(@PathVariable(value = "userName") String userName,
-                                @PathVariable(value = "roomId")String roomId,
                                 @RequestBody MoodDTO moodDTO) throws InterruptedException {
-        return userService.enterMood( roomId, userName,moodDTO);
+        return userService.enterMood(userName,moodDTO);
     }
 
 

@@ -10,6 +10,8 @@
 <body>
 <div id="welcome">
   <img src="../img/welcom.jpg" style="height: 100%">
+  <br>
+  <input  type="submit" value="继续" @click="gotopage()" style=" width: 80px;height: 40px; "></input>
 </div>
 </body>
 <script>
@@ -36,6 +38,13 @@
       };
     },
     methods:{
+      gotopage(){
+        var username=this.userName
+        var versionType=this.versionType
+        var pageIndex = Math.floor(Math.random()*(2+1-0)+0)
+        location.href="question"+(pageIndex+1)+".html?userName="+username+"&pageIndex1="+pageIndex+
+            "&pageTime=1&versionType="+versionType
+      },
       getUserName(){
         var url = location.search //获取url中"?"符后的字串 ('?modFlag=business&role=1')
         var theRequest = new Object()

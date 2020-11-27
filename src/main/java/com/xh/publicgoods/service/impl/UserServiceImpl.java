@@ -245,14 +245,13 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 录入情绪
-     * @param roomId
      * @param userName
      * @param moodDTO
      * @return
      */
     @Override
-    public JSONObject enterMood(String roomId, String userName, MoodDTO moodDTO) {
-        if (StringUtils.isEmpty(roomId) || StringUtils.isEmpty(userName) || moodDTO == null) {
+    public JSONObject enterMood( String userName, MoodDTO moodDTO) {
+        if (StringUtils.isEmpty(userName) || moodDTO == null) {
             return ResultEnum.returnResultJson(ResultEnum.E0000002);
         }
         String key = String.format(RedisConstants.USER_MOOD_STRING, userName);

@@ -6,6 +6,7 @@
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="../js/axios-0.18.0.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/login.css"/>
 </head>
 <body>
@@ -176,6 +177,8 @@
         backend_url:"http://localhost:8888",
         el: "#login",
         data:{
+          userName:"",
+          versionType:"",
             color1:"white",
             moodInfo:{
                 shengqi:"",
@@ -186,12 +189,39 @@
                 haipa:""
             }
         },
+      created:function(){
+        this.getParam()
+      },
         methods:{
             gotoNext(){
                 if (this.moodInfo.shengqi == '' || this.moodInfo.nanguo == '' || this.moodInfo.jingwei == ''
                     || this.moodInfo.yanwu == '' || this.moodInfo.kaixin == '' || this.moodInfo.haipa == ''){
                     alert("请全部选择完毕")
-
+                }else{
+                  var moodDTO = {
+                    "shengqi":this.moodInfo.shengqi,
+                    "nanguo":this.moodInfo.nanguo,
+                    "jingwei":this.moodInfo.jingwei,
+                    "yanwu":this.moodInfo.yanwu,
+                    "kaixin":this.moodInfo.kaixin,
+                    "haipa":this.moodInfo.haipa
+                  }
+                  axios.post("/api/goods/user/"+this.userName+"/enterMood",moodDTO).then((res)=>{
+                    if (res.data.code == 'SUCCESS') {
+                      //跳转页面
+                      alert("成功")
+                      var versionType = this.versionType
+                      if (versionType == 'video') {
+                        location.href="welcom.html?userName="+this.userName
+                            +"&versionType=" + versionType;
+                      }else {
+                        location.href="rule2.html?userName="+this.userName
+                            +"&versionType=" + versionType;
+                      }
+                    }else {
+                      alert(res.data.message)
+                    }
+                  })
                 }
             },
             changeBackColor(type,data){
@@ -230,8 +260,6 @@
                         theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1]
                     }
                     this.userName = theRequest.userName
-                    this.roomId = theRequest.roomId
-                    this.round = theRequest.round
                     this.versionType = theRequest.versionType
                 }
             }

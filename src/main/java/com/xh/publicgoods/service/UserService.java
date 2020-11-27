@@ -33,5 +33,5 @@ public interface UserService {
 
     JSONObject login(String userName, Integer age, GenderEnum gender);
 
-    JSONObject enterMood(String roomId, String userName, MoodDTO moodDTO);
+    JSONObject enterMood(String userName, MoodDTO moodDTO);
 }
