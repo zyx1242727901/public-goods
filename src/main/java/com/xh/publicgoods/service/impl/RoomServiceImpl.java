@@ -211,7 +211,7 @@ public class RoomServiceImpl implements RoomService {
                     temp.setSumMoney(new BigDecimal(redisHelper.get(String.format(RedisConstants.USER_ACCOUNT_SUM_MONEY,temp.getUserName()))));
                     temp.setGender(JSON.parseObject(redisHelper.hget(RedisConstants.USER_INFO_HASH,temp.getUserName())).getString("gender"));
                     if ("1".equals(entry.getKey())) {
-                        String moodInfo = redisHelper.get(String.format(RedisConstants.USER_MOOD_STRING, investRecord.getUserName(), roomId));
+                        String moodInfo = redisHelper.get(String.format(RedisConstants.USER_MOOD_STRING, investRecord.getUserName()));
                         if(!StringUtils.isEmpty(moodInfo)){
                             MoodDTO moodDTO = JSONObject.parseObject(moodInfo, MoodDTO.class);
                             temp.setShengqi(moodDTO.getShengqi());

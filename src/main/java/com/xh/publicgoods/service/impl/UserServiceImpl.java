@@ -255,7 +255,7 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isEmpty(roomId) || StringUtils.isEmpty(userName) || moodDTO == null) {
             return ResultEnum.returnResultJson(ResultEnum.E0000002);
         }
-        String key = String.format(RedisConstants.USER_MOOD_STRING, userName, roomId);
+        String key = String.format(RedisConstants.USER_MOOD_STRING, userName);
         String mood = redisHelper.get(key);
         if (StringUtils.isEmpty(mood)) {
             redisHelper.setex(key, JSONObject.toJSONString(moodDTO), RedisConstants.ONE_DAY);

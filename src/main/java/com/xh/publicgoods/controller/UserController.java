@@ -67,7 +67,7 @@ public class UserController {
     /**
      * 录入情绪
      */
-    @RequestMapping("/{userName}/{roomId}/enterMood")
+    @RequestMapping("/{userName}/enterMood")
     public JSONObject enterMood(@PathVariable(value = "userName") String userName,
                                 @PathVariable(value = "roomId")String roomId,
                                 @RequestBody MoodDTO moodDTO) throws InterruptedException {

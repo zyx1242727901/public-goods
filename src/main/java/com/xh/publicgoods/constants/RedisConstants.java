@@ -45,7 +45,7 @@ public class RedisConstants {
     /**
      * 用户情绪  username_房间号
      */
-    public static final String USER_MOOD_STRING = "user_mood_%s_%s";
+    public static final String USER_MOOD_STRING = "user_mood_%s";
 
 
     //===========================  房间内游戏动态相关  ====================================
