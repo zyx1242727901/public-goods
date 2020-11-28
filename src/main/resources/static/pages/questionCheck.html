@@ -209,15 +209,9 @@
                   axios.post("/api/goods/user/"+this.userName+"/enterMood",moodDTO).then((res)=>{
                     if (res.data.code == 'SUCCESS') {
                       //跳转页面
-                      alert("成功")
                       var versionType = this.versionType
-                      if (versionType == 'video') {
-                        location.href="welcom.html?userName="+this.userName
+                      location.href="rule2.html?userName="+this.userName
                             +"&versionType=" + versionType;
-                      }else {
-                        location.href="rule2.html?userName="+this.userName
-                            +"&versionType=" + versionType;
-                      }
                     }else {
                       alert(res.data.message)
                     }
@@ -234,7 +228,7 @@
                 document.getElementById(type+"5").style.backgroundColor = this.color1
                 document.getElementById(type+"6").style.backgroundColor = this.color1
                 document.getElementById(type+"7").style.backgroundColor = this.color1
-                document.getElementById(newId).style.backgroundColor = "red"
+                document.getElementById(newId).style.backgroundColor = "gray"
                 if (type == "shengqi"){
                     this.moodInfo.shengqi = data;
                 }else if (type == "nanguo"){

@@ -53,8 +53,13 @@
           .then((response) => {
             console.log(response);
             if(response.data.code == 'SUCCESS'){
-              location.href="questionCheck.html?userName="+username
-                  +"&versionType=" + versionType;
+              if (versionType == 'video') {
+                location.href="questionCheck.html?userName="+username
+                    +"&versionType=" + versionType;
+              }else {
+                location.href="rule2.html?userName="+username
+                    +"&versionType=" + versionType;
+              }
             }else{
               alert(response.data.message)
             }
